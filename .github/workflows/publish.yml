@@ -1,0 +1,56 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  test-npm:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        source: [github]
+        include:
+          - source: github
+            registry: https://npm.pkg.github.com/@${{ github.repository_owner }}
+            username: ${{ github.repository_owner }}
+            token: GH_NPM_TOKEN
+    steps:
+    - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
+    - id: npm-prepare-publish
+      uses: ./.github/jobactions/npm-prepare-publish
+      with:
+        name: ${{ matrix.source }}
+        registry: ${{ matrix.registry }}
+        token: ${{ secrets[matrix.token] }}
+    - uses: kagekirin/gha-npm/.github/actions/npm-publish-package@main
+      with:
+        registry: ${{ matrix.registry }}
+        package: ${{ steps.npm-prepare-publish.outputs.package }}
+        dry-run: true
+
+  npm:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        source: [github]
+        include:
+          - source: github
+            registry: https://npm.pkg.github.com/@${{ github.repository_owner }}
+            username: ${{ github.repository_owner }}
+            token: GH_NPM_TOKEN
+    needs: test-npm
+    steps:
+    - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
+    - id: npm-prepare-publish
+      uses: ./.github/jobactions/npm-prepare-publish
+      with:
+        name: ${{ matrix.source }}
+        registry: ${{ matrix.registry }}
+        token: ${{ secrets[matrix.token] }}
+    - uses: kagekirin/gha-npm/.github/actions/npm-publish-package@main
+      with:
+        registry: ${{ matrix.registry }}
+        package: ${{ steps.npm-prepare-publish.outputs.package }}
+        dry-run: false

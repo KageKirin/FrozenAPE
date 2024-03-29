@@ -1,0 +1,35 @@
+name: jobactions/npm-prepare-publish
+inputs:
+  name:
+    required: true
+  registry:
+    required: false
+    default: https://npm.pkg.github.com/${{ github.repository_owner }}/index.json
+  token:
+    required: true
+outputs:
+  package:
+    description: package name (without path)
+    value: ${{ steps.npm-pack.outputs.package }}
+  package-full:
+    description: package name with path
+    value: ${{ steps.npm-pack.outputs.package-full }}
+runs:
+  using: composite
+  steps:
+  - uses: kagekirin/gha-utils/.github/actions/install-prerequisites@main
+  - uses: kagekirin/gha-npm/.github/actions/npm-add-registry@main
+    with:
+      name: ${{ inputs.name }}
+      registry: ${{ inputs.registry }}
+      token: ${{ inputs.token }}
+  - uses: ./.github/jobactions/build
+    with:
+      unity: 2022.3
+      configuration: Release
+  - id: npm-pack
+    uses: kagekirin/gha-npm/.github/actions/npm-pack@main
+    with:
+      path: ${{ github.workspace }}
+      spec: package.json
+      outdir: ./
