@@ -1,0 +1,23 @@
+{
+    "name": "FrozenAPE.Editor",
+    "rootNamespace": "FrozenAPE",
+    "references": [
+        "UnityEngine.Jobs",
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Collections.BurstCompatibilityGen",
+        "Unity.Jobs",
+        "Unity.Mathematics",
+        "Unity.RenderPipelines.Core.Runtime",
+        "FrozenAPE"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
