@@ -58,7 +58,12 @@ namespace FrozenAPE
                     }
 
                     var materials = meshRenderer != null ? meshRenderer.sharedMaterials : Array.Empty<Material>();
-                    var sbObj = objWriter.WriteOBJ(Path.GetFileNameWithoutExtension(targetPathObj), meshFilter.sharedMesh, materials, new StringBuilder());
+                    var sbObj = objWriter.WriteOBJ(
+                        Path.GetFileNameWithoutExtension(targetPathObj),
+                        meshFilter.sharedMesh,
+                        materials,
+                        new StringBuilder()
+                    );
                     var sbMtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), materials, new StringBuilder());
                     File.WriteAllText(targetPathObj, sbObj.ToString());
                     File.WriteAllText(targetPathMtl, sbMtl.ToString());
@@ -99,7 +104,11 @@ namespace FrozenAPE
                         skinnedMeshRenderer.sharedMaterials,
                         new StringBuilder()
                     );
-                    var sbMtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), skinnedMeshRenderer.sharedMaterials, new StringBuilder());
+                    var sbMtl = mtlWriter.WriteMTL(
+                        Path.GetFileNameWithoutExtension(targetPathMtl),
+                        skinnedMeshRenderer.sharedMaterials,
+                        new StringBuilder()
+                    );
                     File.WriteAllText(targetPathObj, sbObj.ToString());
                     File.WriteAllText(targetPathMtl, sbMtl.ToString());
                 }
@@ -116,7 +125,12 @@ namespace FrozenAPE
                     return;
                 }
 
-                var sbObj = objWriter.WriteOBJ(Path.GetFileNameWithoutExtension(targetPathObj), mesh, Array.Empty<Material>(), new StringBuilder());
+                var sbObj = objWriter.WriteOBJ(
+                    Path.GetFileNameWithoutExtension(targetPathObj),
+                    mesh,
+                    Array.Empty<Material>(),
+                    new StringBuilder()
+                );
                 File.WriteAllText(targetPathObj, sbObj.ToString());
                 return;
             }
