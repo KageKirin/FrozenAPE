@@ -50,4 +50,10 @@ namespace FrozenAPE
         /// </summary>
         public double3? scalingFactor;
     }
+
+    [Serializable]
+    public class PosedBoneContainer
+    {
+        public List<PosedBone> bones = new();
+    }
 }
