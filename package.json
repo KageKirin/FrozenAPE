@@ -11,6 +11,7 @@
     "**/*.amsdef"
   ],
   "dependencies": {
+    "org.nuget.system.componentmodel.annotations": "5.0.0",
     "com.cysharp.csprojmodifier": "1.2.1",
     "com.unity.burst": "1.7.3",
     "com.unity.collections": "1.4.0",
