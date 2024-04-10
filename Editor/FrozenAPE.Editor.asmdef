@@ -9,6 +9,7 @@
         "Unity.Jobs",
         "Unity.Mathematics",
         "Unity.RenderPipelines.Core.Runtime",
+        "Unity.Serialization",
         "FrozenAPE"
     ],
     "includePlatforms": [],
