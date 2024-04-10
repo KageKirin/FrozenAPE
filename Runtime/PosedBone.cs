@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Unity.Mathematics;
 
 #nullable enable
@@ -13,6 +14,8 @@ namespace FrozenAPE
         /// bone name
         /// target bone referenced by name
         /// </summary>
+        // required
+        [Required(AllowEmptyStrings = false)]
         public string targetBone;
 
         /// <summary>
