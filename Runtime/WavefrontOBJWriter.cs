@@ -13,6 +13,11 @@ namespace FrozenAPE
         /// whereas OBJ expects right-handed coordinates.
         /// </summary>
         static double4x4 kmLeftToRightHandedness = math.double4x4(-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        static double3x3 kmLeftToRightHandedness_normal = math.double3x3(
+            kmLeftToRightHandedness.c0.xyz,
+            kmLeftToRightHandedness.c1.xyz,
+            kmLeftToRightHandedness.c2.xyz
+        );
 
         public virtual StringBuilder WriteOBJ(string name, Mesh mesh, Material[] materials, StringBuilder sb)
         {
@@ -32,7 +37,9 @@ namespace FrozenAPE
             sb.AppendLine().AppendLine("# normals");
             foreach (var vn in mesh.normals)
             {
-                sb.AppendLine($"vn {vn.x} {vn.y} {vn.z}");
+                var vn_lh = math.double3(vn);
+                var vn_rh = math.mul(kmLeftToRightHandedness_normal, vn_lh);
+                sb.AppendLine($"vn {vn_rh.x} {vn_rh.y} {vn_rh.z}");
             }
 
             sb.AppendLine().AppendLine("# texcoords");
