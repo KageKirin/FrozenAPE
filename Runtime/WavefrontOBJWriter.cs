@@ -13,7 +13,7 @@ namespace FrozenAPE
         /// whereas OBJ expects right-handed coordinates.
         /// </summary>
         static float4x4 kmLeftToRightHandedness = math.float4x4(-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-        static double3x3 kmLeftToRightHandedness_normal = math.double3x3(
+        static float3x3 kmLeftToRightHandedness_normal = math.float3x3(
             kmLeftToRightHandedness.c0.xyz,
             kmLeftToRightHandedness.c1.xyz,
             kmLeftToRightHandedness.c2.xyz
@@ -36,8 +36,7 @@ namespace FrozenAPE
             sb.AppendLine().AppendLine("# normals");
             foreach (var vn in mesh.normals)
             {
-                var vn_lh = math.double3(vn);
-                var vn_rh = math.mul(kmLeftToRightHandedness_normal, vn_lh);
+                var vn_rh = math.mul(kmLeftToRightHandedness_normal, vn);
                 sb.AppendLine($"vn {vn_rh.x} {vn_rh.y} {vn_rh.z}");
             }
 
