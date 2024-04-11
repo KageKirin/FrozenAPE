@@ -24,8 +24,7 @@ namespace FrozenAPE
             sb.AppendLine().AppendLine("# vertices");
             foreach (var v in mesh.vertices)
             {
-                var v_rh = kvLeftToRightHandedness * v;
-                sb.AppendLine($"v {v_rh.x} {v_rh.y} {v_rh.z}");
+                sb.AppendLine($"v {-v.x} {v.y} {v.z}");
             }
 
             sb.AppendLine().AppendLine("# normals");
