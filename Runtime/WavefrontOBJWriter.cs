@@ -79,7 +79,7 @@ namespace FrozenAPE
                 for (int i = 0; i < desc.indexCount; i += elementsPerLine)
                 {
                     sb.Append($"{faceTag}");
-                    for (int x = 0; x < elementsPerLine; x++)
+                    for (int x = elementsPerLine - 1; x >= 0; x--)
                     {
                         int faceIndex = 1 + mesh.triangles[desc.indexStart + i + x]; // indices are 1 based
                         sb.Append($" {faceIndex}/{faceIndex}/{faceIndex}"); //< indices in order `v/vt/vn`
