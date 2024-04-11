@@ -8,12 +8,6 @@ namespace FrozenAPE
 {
     public class WavefrontOBJWriter : IWavefrontOBJWriter
     {
-        /// <summary>
-        /// Unity is using a left-handed coordinate system
-        /// whereas OBJ expects right-handed coordinates.
-        /// </summary>
-        static float3 kvLeftToRightHandedness = math.float3(-1, 1, 1);
-
         public virtual StringBuilder WriteOBJ(string name, Mesh mesh, Material[] materials, StringBuilder sb)
         {
             sb.AppendLine($"o {name}");
@@ -24,15 +18,13 @@ namespace FrozenAPE
             sb.AppendLine().AppendLine("# vertices");
             foreach (var v in mesh.vertices)
             {
-                var v_rh = kvLeftToRightHandedness * v;
-                sb.AppendLine($"v {v_rh.x} {v_rh.y} {v_rh.z}");
+                sb.AppendLine($"v {-v.x} {v.y} {v.z}");
             }
 
             sb.AppendLine().AppendLine("# normals");
             foreach (var vn in mesh.normals)
             {
-                var vn_rh = kvLeftToRightHandedness * vn;
-                sb.AppendLine($"vn {vn_rh.x} {vn_rh.y} {vn_rh.z}");
+                sb.AppendLine($"vn {-vn.x} {vn.y} {vn.z}");
             }
 
             sb.AppendLine().AppendLine("# texcoords");
