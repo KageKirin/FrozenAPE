@@ -1,12 +1,19 @@
 using System;
 using System.Linq;
 using System.Text;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace FrozenAPE
 {
     public class WavefrontOBJWriter : IWavefrontOBJWriter
     {
+        /// <summary>
+        /// Unity is using a left-handed coordinate system
+        /// whereas OBJ expects right-handed coordinates.
+        /// </summary>
+        static double4x4 kmLeftToRightHandedness = math.double4x4(-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+
         public virtual StringBuilder WriteOBJ(string name, Mesh mesh, Material[] materials, StringBuilder sb)
         {
             sb.AppendLine($"o {name}");
@@ -17,7 +24,9 @@ namespace FrozenAPE
             sb.AppendLine().AppendLine("# vertices");
             foreach (var v in mesh.vertices)
             {
-                sb.AppendLine($"v {v.x} {v.y} {v.z}");
+                var v_lh = math.double3(v);
+                var v_rh = math.mul(kmLeftToRightHandedness, math.double4(v_lh, 1)).xyz;
+                sb.AppendLine($"v {v_rh.x} {v_rh.y} {v_rh.z}");
             }
 
             sb.AppendLine().AppendLine("# normals");
