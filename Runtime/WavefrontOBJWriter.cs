@@ -12,7 +12,7 @@ namespace FrozenAPE
         /// Unity is using a left-handed coordinate system
         /// whereas OBJ expects right-handed coordinates.
         /// </summary>
-        static float4x4 kmLeftToRightHandedness = math.float4x4(-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        static float3 kvLeftToRightHandedness = math.float3(-1, 1, 1);
         static float3x3 kmLeftToRightHandedness_normal = math.float3x3(
             kmLeftToRightHandedness.c0.xyz,
             kmLeftToRightHandedness.c1.xyz,
@@ -29,7 +29,7 @@ namespace FrozenAPE
             sb.AppendLine().AppendLine("# vertices");
             foreach (var v in mesh.vertices)
             {
-                var v_rh = math.mul(kmLeftToRightHandedness, math.float4(v, 1)).xyz;
+                var v_rh = kvLeftToRightHandedness * v;
                 sb.AppendLine($"v {v_rh.x} {v_rh.y} {v_rh.z}");
             }
 
