@@ -4,7 +4,9 @@ description: >
   Sets up .npmrc and patches package.json with correct registry.
 
 inputs:
-  registry:
+  registry-url:
+    description: Full registry URL (starting from https://) without scope
+    type: string
     required: false
     default: https://npm.pkg.github.com/${{ github.repository_owner }}/index.json
   token:
