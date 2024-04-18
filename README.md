@@ -7,9 +7,14 @@ to allow moving a skinned model into a specific pose
 and exporting the _frozen_ static mesh of that pose
 into a Wavefront OBJ or FBX file.
 
-## ⚡ Getting Started
+This rather experimental package can be used to pose any given character model
+into an A-Pose (hence this project's name), and export the frozen, static meshes as
+OBJ files, to allow further modifications, such as re-skinning, in another DCC tool.
 
-TODO: elaborate
+The whole picture is to simplify the workload for Technical Artists when faced to recycling models
+to other games/engines that require skinning to a particular rig.
+The closest use-case would be to transform a character model to A-Pose, freeze and export as OBJ,
+and then reskin the model for e.g. Roblox.
 
 ## 🔧 Building and Running
 
