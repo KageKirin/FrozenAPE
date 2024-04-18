@@ -70,10 +70,37 @@ Add `com.kagekirin.frozenape` to the `manifest.json` `.dependencies{}`:
 }
 ```
 
+## ⚡ Usage guide
 
-### ▶ Running and Settings
+### ▶ Running from Editor
 
-TODO: elaborate
+FrozenAPE adds a few menu/context menu entries:
+
+* _FrozenAPE > Export as Wavefront OBJ_: exports all the meshes from the currently selected GameObject
+  or the currently selected Mesh as Wavefront|OBJ (aka Maya OBJ) file(s).
+  CAVEAT: Since OBJ does not support skinning data per-se, the skinning data associated with
+  `SkinnedMeshRenderer` will not be exported.
+* _FrozenAPE > Create Sample Pose JSON_: creates a sample `pose.json` to allow manual modification.
+* _FrozenAPE > Pose From JSON_: loads a JSON file and applies the pose data to the currently selected GameObject.
+* _FrozenAPE > Freeze Current Pose_: creates a copy of the currently select GameObject,
+  where every mesh has been replaced by a (baked) static mesh, frozen at the current pose.
+
+Given a manually prepaired `pose.json`, the workflow to export the frozen pose would be:
+
+1. _FrozenAPE > Pose From JSON_
+2. _FrozenAPE > Freeze Current Pose_
+3. _FrozenAPE > Export as Wavefront OBJ_
+
+### ▶ Calling from code
+
+The runtime consists of 4 interfaces and their respective implementations:
+
+* `IWavefrontOBJWriter.WriteOBJ()` creates the OBJ mesh data (text) from a given mesh and its materials
+* `IWavefrontMTLWriter.WriteMTL()` creates the OBJ material library (MTL file, text) from the materials associated with a mesh.
+* `IRigPuppeteer.Pose()` moves the provided Transforms (from `GameObject.GetComponentsInChildren<Transform>(true)`) into the pose specified by a set of `PosedBones`.
+* `IPoseFreezer.Freeze()` returns the _frozen_ (in Unity terms: _baked_) meshes and their respective materials from a `GameObject`, respectively a `SkinnedMeshRenderer`.
+
+NOTE: registering the interfaces and their implementations with a dependency injection framework allows to inject the implementations at runtime.
 
 ## 🤝 Collaborate with My Project
 
