@@ -59,10 +59,9 @@ namespace FrozenAPE
 
                     var materials = meshRenderer != null ? meshRenderer.sharedMaterials : Array.Empty<Material>();
                     var obj = objWriter.WriteOBJ(Path.GetFileNameWithoutExtension(targetPathObj), meshFilter.sharedMesh, materials);
+                    var mtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), materials);
                     File.WriteAllText(targetPathObj, obj);
-
-                    var sbMtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), materials, new StringBuilder());
-                    File.WriteAllText(targetPathMtl, sbMtl.ToString());
+                    File.WriteAllText(targetPathMtl, mtl);
                 }
 
                 foreach (var skinnedMeshRenderer in go.GetComponentsInChildren<SkinnedMeshRenderer>(true))
@@ -99,13 +98,9 @@ namespace FrozenAPE
                         skinnedMeshRenderer.sharedMesh,
                         skinnedMeshRenderer.sharedMaterials
                     );
-                    var sbMtl = mtlWriter.WriteMTL(
-                        Path.GetFileNameWithoutExtension(targetPathMtl),
-                        skinnedMeshRenderer.sharedMaterials,
-                        new StringBuilder()
-                    );
+                    var mtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), skinnedMeshRenderer.sharedMaterials);
                     File.WriteAllText(targetPathObj, obj);
-                    File.WriteAllText(targetPathMtl, sbMtl.ToString());
+                    File.WriteAllText(targetPathMtl, mtl);
                 }
                 return;
             }
