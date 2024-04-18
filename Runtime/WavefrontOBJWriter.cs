@@ -8,8 +8,9 @@ namespace FrozenAPE
 {
     public class WavefrontOBJWriter : IWavefrontOBJWriter
     {
-        public virtual StringBuilder WriteOBJ(string name, Mesh mesh, Material[] materials, StringBuilder sb)
+        public string WriteOBJ(string name, Mesh mesh, Material[] materials)
         {
+            StringBuilder sb = new();
             sb.AppendLine($"o {name}");
 
             sb.AppendLine().AppendLine("# materials");
@@ -73,7 +74,7 @@ namespace FrozenAPE
                 }
             }
 
-            return sb;
+            return sb.ToString();
         }
     }
 }
