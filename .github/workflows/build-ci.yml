@@ -44,6 +44,9 @@ jobs:
   test-npm:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         source: [github, npmjs]
@@ -52,7 +55,7 @@ jobs:
             registry-url: https://npm.pkg.github.com/
             scope: 'kagekirin'                        #must be lowercase, without '@'
             username: ${{ github.repository_owner }}  #not lowercase
-            token: GH_NPM_TOKEN
+            token: GITHUB_TOKEN
           - source: npmjs
             registry-url: https://registry.npmjs.org/
             scope: 'kagekirin'                        #must be lowercase, without '@'
