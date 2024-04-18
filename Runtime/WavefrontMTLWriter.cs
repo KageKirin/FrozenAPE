@@ -7,8 +7,9 @@ namespace FrozenAPE
 {
     public class WavefrontMTLWriter : IWavefrontMTLWriter
     {
-        public StringBuilder WriteMTL(string name, Material[] materials, StringBuilder sb)
+        public string WriteMTL(string name, Material[] materials)
         {
+            StringBuilder sb = new();
             sb.AppendLine($"# material lib {name}");
 
             foreach (var mat in materials.Distinct())
@@ -29,7 +30,7 @@ namespace FrozenAPE
                     .AppendLine($"map_Ks {mainTexture.name}.png");
             }
 
-            return sb;
+            return sb.ToString();
         }
     }
 }
