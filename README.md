@@ -1,6 +1,6 @@
-# Frozen A-Pose Exporter, a.k.a FrozenAPE
+# Frozen A-Pose Exporter, a.k.a FrozenAPE 🧊🦍
 
-TODO: image of a frozen APE
+![Logo showing a frozen ape 🧊🦍](./Documentation~/frozenape_logo.png)
 
 FrozenAPE is a set of Unity-specific functions and Editor Menus
 to allow moving a skinned model into a specific pose
