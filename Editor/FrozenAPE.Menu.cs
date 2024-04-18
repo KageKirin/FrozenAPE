@@ -58,14 +58,10 @@ namespace FrozenAPE
                     }
 
                     var materials = meshRenderer != null ? meshRenderer.sharedMaterials : Array.Empty<Material>();
-                    var sbObj = objWriter.WriteOBJ(
-                        Path.GetFileNameWithoutExtension(targetPathObj),
-                        meshFilter.sharedMesh,
-                        materials,
-                        new StringBuilder()
-                    );
+                    var obj = objWriter.WriteOBJ(Path.GetFileNameWithoutExtension(targetPathObj), meshFilter.sharedMesh, materials);
+                    File.WriteAllText(targetPathObj, obj);
+
                     var sbMtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), materials, new StringBuilder());
-                    File.WriteAllText(targetPathObj, sbObj.ToString());
                     File.WriteAllText(targetPathMtl, sbMtl.ToString());
                 }
 
@@ -98,18 +94,17 @@ namespace FrozenAPE
                         continue;
                     }
 
-                    var sbObj = objWriter.WriteOBJ(
+                    var obj = objWriter.WriteOBJ(
                         Path.GetFileNameWithoutExtension(targetPathObj),
                         skinnedMeshRenderer.sharedMesh,
-                        skinnedMeshRenderer.sharedMaterials,
-                        new StringBuilder()
+                        skinnedMeshRenderer.sharedMaterials
                     );
                     var sbMtl = mtlWriter.WriteMTL(
                         Path.GetFileNameWithoutExtension(targetPathMtl),
                         skinnedMeshRenderer.sharedMaterials,
                         new StringBuilder()
                     );
-                    File.WriteAllText(targetPathObj, sbObj.ToString());
+                    File.WriteAllText(targetPathObj, obj);
                     File.WriteAllText(targetPathMtl, sbMtl.ToString());
                 }
                 return;
@@ -125,13 +120,8 @@ namespace FrozenAPE
                     return;
                 }
 
-                var sbObj = objWriter.WriteOBJ(
-                    Path.GetFileNameWithoutExtension(targetPathObj),
-                    mesh,
-                    Array.Empty<Material>(),
-                    new StringBuilder()
-                );
-                File.WriteAllText(targetPathObj, sbObj.ToString());
+                var obj = objWriter.WriteOBJ(Path.GetFileNameWithoutExtension(targetPathObj), mesh, Array.Empty<Material>());
+                File.WriteAllText(targetPathObj, obj);
                 return;
             }
         }
