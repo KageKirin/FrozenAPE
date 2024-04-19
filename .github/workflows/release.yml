@@ -1,0 +1,31 @@
+name: release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # allow GITHUB_TOKEN to create releases
+    steps:
+      - uses: kagekirin/gha-utils/.github/actions/git-checkout-tags@main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - id: npm-pack
+        uses: kagekirin/gha-npm/.github/actions/npm-pack@main
+        with:
+          path: ${{ github.workspace }}
+          spec: package.json
+          outdir: ./
+      - uses: kagekirin/gha-utils/.github/actions/gh-create-release@main
+        with:
+          title: Release ${{ github.action_ref }}
+          generate-notes: true
+          files: |
+            ${{ steps.npm-pack.outputs.package }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
