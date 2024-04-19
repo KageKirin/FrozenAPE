@@ -9,7 +9,7 @@
     "**/*.meta",
     "**/*.md",
     "**/*.cs",
-    "**/*.amsdef"
+    "**/*.asmdef"
   ],
   "dependencies": {
     "org.nuget.system.componentmodel.annotations": "5.0.0",
