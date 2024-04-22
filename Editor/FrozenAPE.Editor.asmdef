@@ -2,6 +2,7 @@
     "name": "FrozenAPE.Editor",
     "rootNamespace": "FrozenAPE",
     "references": [
+        "UnityEditor",
         "UnityEngine.Jobs",
         "Unity.Burst",
         "Unity.Collections",
