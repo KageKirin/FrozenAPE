@@ -10,7 +10,9 @@
         "Unity.Serialization",
         "FrozenAPE"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
