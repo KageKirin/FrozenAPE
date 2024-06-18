@@ -50,5 +50,28 @@ namespace FrozenAPE
                 }
             }
         }
+
+        /// <summary>
+        /// saves the provided transforms into posed bones
+        /// </summary>
+        /// <param name="transforms">transforms as returned by `<![CDATA[GameObject.GetComponentsInChildren<Transform>(true)]]>`</param>
+        /// <param name="posedBones">the transforms as posed bones</param>
+        public virtual void SavePose(Transform[] transforms, out IEnumerable<PosedBone> posedBones)
+        {
+            List<PosedBone> posedBoneList = new();
+
+            foreach (var transform in transforms)
+            {
+                PosedBone posedBone = new();
+                posedBone.targetBone = transform.name;
+                posedBone.rotation = (float3)transform.eulerAngles;
+                posedBone.position = (float3)transform.position;
+                posedBone.scaling = (float3)transform.localScale;
+
+                posedBoneList.Add(posedBone);
+            }
+
+            posedBones = posedBoneList;
+        }
     }
 }
