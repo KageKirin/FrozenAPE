@@ -14,7 +14,7 @@ namespace FrozenAPE
     public class FrozenAPE_FreezePoseMenu : EditorWindow
     {
         [MenuItem("FrozenAPE/Freeze Current Pose")]
-        [MenuItem("GameObject/Freeze Current Pose")]
+        [MenuItem("GameObject/FrozenAPE/Freeze Current Pose")]
         private static void FreezeCurrentPose(MenuCommand menuCommand)
         {
             if (Selection.activeObject == null)
