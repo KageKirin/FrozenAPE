@@ -15,7 +15,7 @@ namespace FrozenAPE
     {
         [MenuItem("FrozenAPE/Freeze Current Pose")]
         [MenuItem("GameObject/FrozenAPE/Freeze Current Pose")]
-        private static void FreezeCurrentPose(MenuCommand menuCommand)
+        public static void FreezeCurrentPose(MenuCommand menuCommand)
         {
             if (Selection.activeObject == null)
             {

@@ -12,7 +12,7 @@ namespace FrozenAPE
         [MenuItem("FrozenAPE/Export as Wavefront OBJ...")]
         [MenuItem("GameObject/FrozenAPE/Export as Wavefront OBJ...")]
         [MenuItem("Assets/FrozenAPE/Export as Wavefront OBJ...")]
-        private static void ExportOBJ(MenuCommand menuCommand)
+        public static void ExportOBJ(MenuCommand menuCommand)
         {
             IWavefrontOBJWriter objWriter = new WavefrontOBJWriter();
             IWavefrontMTLWriter mtlWriter = new WavefrontMTLWriter();

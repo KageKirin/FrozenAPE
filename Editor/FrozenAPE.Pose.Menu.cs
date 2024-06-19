@@ -16,7 +16,7 @@ namespace FrozenAPE
         [MenuItem("FrozenAPE/Pose from JSON...")]
         [MenuItem("GameObject/FrozenAPE/Pose from JSON...")]
         // [MenuItem("Assets/FrozenAPE/Pose from JSON...")] //< assets are readonly
-        private static void PoseFromJson(MenuCommand menuCommand)
+        public static void PoseFromJson(MenuCommand menuCommand)
         {
             if (Selection.activeObject == null)
             {

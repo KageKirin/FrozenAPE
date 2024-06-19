@@ -15,7 +15,7 @@ namespace FrozenAPE
     {
         [MenuItem("FrozenAPE/Randomize Pose")]
         [MenuItem("GameObject/FrozenAPE/Randomize Pose")]
-        private static void RandomizePose(MenuCommand menuCommand)
+        public static void RandomizePose(MenuCommand menuCommand)
         {
             if (Selection.activeObject == null)
             {
