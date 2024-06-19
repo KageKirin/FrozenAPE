@@ -21,5 +21,14 @@ namespace FrozenAPE
             FrozenAPE_FreezePoseMenu.FreezeCurrentPose(menuCommand);
             FrozenAPE_Menu.ExportOBJ(menuCommand);
         }
+
+        [MenuItem("FrozenAPE/Insta Random Pose, Freeze and Export")]
+        [MenuItem("GameObject/FrozenAPE/Insta Random Pose, Freeze and Export")]
+        private static void InstaRandomPoseFreezeExportFromJson(MenuCommand menuCommand)
+        {
+            FrozenAPE_RandomizePoseMenu.RandomizePose(menuCommand);
+            FrozenAPE_FreezePoseMenu.FreezeCurrentPose(menuCommand);
+            FrozenAPE_Menu.ExportOBJ(menuCommand);
+        }
     }
 }
