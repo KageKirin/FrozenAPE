@@ -24,5 +24,11 @@ namespace FrozenAPE
         /// <param name="transforms">transforms as returned by `<![CDATA[GameObject.GetComponentsInChildren<Transform>(true)]]>`</param>
         /// <param name="posedBones">the transforms as posed bones</param>
         void SavePose(Transform[] transforms, out IEnumerable<PosedBone> posedBones);
+
+        /// <summary>
+        /// poses provided transforms into a randomized position/orientation
+        /// </summary>
+        /// <param name="transforms">transforms as returned by `<![CDATA[GameObject.GetComponentsInChildren<Transform>(true)]]>`</param>
+        void RandomizePose(Transform[] transforms);
     }
 }
