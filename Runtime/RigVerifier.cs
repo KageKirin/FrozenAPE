@@ -30,7 +30,7 @@ namespace FrozenAPE
 
                 if (posedBone.rotation is not null)
                 {
-                    var match = (double3)posedBone.rotation! == (double3)(float3)transform.eulerAngles;
+                    var match = math.abs((double3)posedBone.rotation! - (double3)(float3)transform.eulerAngles) <= k_Epsilon;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
@@ -44,7 +44,7 @@ namespace FrozenAPE
 
                 if (posedBone.position is not null)
                 {
-                    var match = (double3)posedBone.position! == (double3)(float3)transform.position;
+                    var match = math.abs((double3)posedBone.position! - (double3)(float3)transform.position) <= k_Epsilon;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
@@ -58,7 +58,7 @@ namespace FrozenAPE
 
                 if (posedBone.scaling is not null)
                 {
-                    var match = (double3)posedBone.scaling! == (double3)(float3)transform.localScale;
+                    var match = math.abs((double3)posedBone.scaling! - (double3)(float3)transform.localScale) <= k_Epsilon;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
