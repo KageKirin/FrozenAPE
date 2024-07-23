@@ -36,7 +36,7 @@ namespace FrozenAPE
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
                         Debug.LogError(
-                            $"rotation mismatch for {posedBone.targetBone}:"
+                            $"rotation mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone rotation is {posedBone.rotation}"
                                 + $"\n transform rotation is {transform.eulerAngles}"
                         );
@@ -50,7 +50,7 @@ namespace FrozenAPE
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
                         Debug.LogError(
-                            $"position mismatch for {posedBone.targetBone}:"
+                            $"position mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone position is {posedBone.position}"
                                 + $"\n transform position is {transform.position}"
                         );
@@ -64,7 +64,7 @@ namespace FrozenAPE
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
                         Debug.LogError(
-                            $"scaling mismatch for {posedBone.targetBone}:"
+                            $"scaling mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone scaling is {posedBone.scaling}"
                                 + $"\n transform scaling is {transform.localScale}"
                         );
