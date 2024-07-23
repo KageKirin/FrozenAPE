@@ -10,6 +10,12 @@ namespace FrozenAPE
 {
     public class RigVerifier : IRigVerifier
     {
+        /// <summary>
+        /// a custom ε (epsilon) b/c both math.EPSILON and math.EPSILON_DBL are too low
+        /// i.e. we want our cutoff at around 10^(-3), milli unit level as anything
+        /// lower doesn't sense make wrt Unity's internal transform precision
+        /// </summary>
+        const double k_Epsilon = 0.001;
         public virtual bool CheckPose(Transform[] transforms, in IEnumerable<PosedBone> posedBones)
         {
             List<bool> matches = new();
@@ -24,13 +30,13 @@ namespace FrozenAPE
 
                 if (posedBone.rotation is not null)
                 {
-                    var match = (double3)posedBone.rotation! == (double3)(float3)transform.eulerAngles;
+                    var match = math.abs((double3)posedBone.rotation! - (double3)(float3)transform.eulerAngles) <= k_Epsilon;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
                         Debug.LogError(
-                            $"rotation mismatch for {posedBone.targetBone}:"
+                            $"rotation mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone rotation is {posedBone.rotation}"
                                 + $"\n transform rotation is {transform.eulerAngles}"
                         );
@@ -38,13 +44,13 @@ namespace FrozenAPE
 
                 if (posedBone.position is not null)
                 {
-                    var match = (double3)posedBone.position! == (double3)(float3)transform.position;
+                    var match = math.abs((double3)posedBone.position! - (double3)(float3)transform.position) <= k_Epsilon;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
                         Debug.LogError(
-                            $"position mismatch for {posedBone.targetBone}:"
+                            $"position mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone position is {posedBone.position}"
                                 + $"\n transform position is {transform.position}"
                         );
@@ -52,13 +58,13 @@ namespace FrozenAPE
 
                 if (posedBone.scaling is not null)
                 {
-                    var match = (double3)posedBone.scaling! == (double3)(float3)transform.localScale;
+                    var match = math.abs((double3)posedBone.scaling! - (double3)(float3)transform.localScale) <= k_Epsilon;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
                         Debug.LogError(
-                            $"scaling mismatch for {posedBone.targetBone}:"
+                            $"scaling mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone scaling is {posedBone.scaling}"
                                 + $"\n transform scaling is {transform.localScale}"
                         );
