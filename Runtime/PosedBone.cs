@@ -33,13 +33,6 @@ namespace FrozenAPE
         /// CANNOT BE 0
         /// </summary>
         public double3? scaling;
-
-        /// <summary>
-        /// bone scaling factor
-        /// **FACTOR**
-        /// CANNOT BE 0
-        /// </summary>
-        public double3? scalingFactor;
     }
 
     [Serializable]
