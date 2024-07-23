@@ -35,12 +35,6 @@ namespace FrozenAPE
         public double3? scaling;
 
         /// <summary>
-        /// bone rotation (Euler angles)
-        /// angular offset to default orientation
-        /// </summary>
-        public double3? rotationOffset;
-
-        /// <summary>
         /// bone scaling factor
         /// **FACTOR**
         /// CANNOT BE 0
