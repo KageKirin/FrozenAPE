@@ -10,6 +10,12 @@ namespace FrozenAPE
 {
     public class RigVerifier : IRigVerifier
     {
+        /// <summary>
+        /// a custom ε (epsilon) b/c both math.EPSILON and math.EPSILON_DBL are too low
+        /// i.e. we want our cutoff at around 10^(-3), milli unit level as anything
+        /// lower doesn't sense make wrt Unity's internal transform precision
+        /// </summary>
+        const double k_Epsilon = 0.001;
         public virtual bool CheckPose(Transform[] transforms, in IEnumerable<PosedBone> posedBones)
         {
             List<bool> matches = new();
