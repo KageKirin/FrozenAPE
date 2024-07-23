@@ -31,23 +31,6 @@ namespace FrozenAPE
                 {
                     transforms[idx].localScale = (Vector3)math.float3((double3)posedBone.scaling!);
                 }
-
-                if (posedBone.rotationOffset is not null)
-                {
-                    transforms[idx].eulerAngles += (Vector3)math.float3((double3)posedBone.rotationOffset!);
-                }
-
-                if (posedBone.positionOffset is not null)
-                {
-                    transforms[idx].position += (Vector3)math.float3((double3)posedBone.positionOffset!);
-                }
-
-                if (posedBone.scalingFactor is not null)
-                {
-                    float3 scale = transforms[idx].localScale;
-                    scale *= math.float3((double3)posedBone.scalingFactor!);
-                    transforms[idx].localScale = scale;
-                }
             }
         }
 
