@@ -11,11 +11,12 @@ namespace FrozenAPE
     public class RigVerifier : IRigVerifier
     {
         /// <summary>
-        /// a custom ε (epsilon) b/c both math.EPSILON and math.EPSILON_DBL are too low
-        /// i.e. we want our cutoff at around 10^(-3), milli unit level as anything
-        /// lower doesn't sense make wrt Unity's internal transform precision
+        /// A precision cutoff κ defined as scalar factor applied prior to converting the comparison terms to integer
+        /// i.e. instead of using a custom ε at milli-unit level in with a double-precision floating-point comparison
+        /// We proceed to an integer comparison after multiplying the comparison terms with this precision cutoff.
+        /// The cutoff is currently set to 10k which is seemingly precise enough for all our needs.
         /// </summary>
-        const double k_Epsilon = 0.001;
+        const int k_CutoffPrecision = 10000;
         public virtual bool CheckPose(Transform[] transforms, in IEnumerable<PosedBone> posedBones)
         {
             List<bool> matches = new();
@@ -30,7 +31,7 @@ namespace FrozenAPE
 
                 if (posedBone.rotation is not null)
                 {
-                    var match = math.abs((double3)posedBone.rotation! - (double3)(float3)transform.eulerAngles) <= k_Epsilon;
+                    var match = (int3)(posedBone.rotation * k_CutoffPrecision) == (int3)((float3)transform.eulerAngles * k_CutoffPrecision);
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
@@ -44,7 +45,7 @@ namespace FrozenAPE
 
                 if (posedBone.position is not null)
                 {
-                    var match = math.abs((double3)posedBone.position! - (double3)(float3)transform.position) <= k_Epsilon;
+                    var match = (int3)(posedBone.position * k_CutoffPrecision) == (int3)((float3)transform.position * k_CutoffPrecision);
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
@@ -58,7 +59,7 @@ namespace FrozenAPE
 
                 if (posedBone.scaling is not null)
                 {
-                    var match = math.abs((double3)posedBone.scaling! - (double3)(float3)transform.localScale) <= k_Epsilon;
+                    var match = (int3)(posedBone.scaling * k_CutoffPrecision) == (int3)((float3)transform.localScale * k_CutoffPrecision);
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
