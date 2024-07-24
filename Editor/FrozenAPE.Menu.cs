@@ -15,7 +15,7 @@ namespace FrozenAPE
         [MenuItem("Assets/FrozenAPE/Export as Wavefront OBJ...")]
         public static void ExportOBJ(MenuCommand menuCommand)
         {
-            ITextureWriter texWriter = new TexturePNGWriter();
+            ITextureWriter texWriter = new TextureTGAWriter();
             IWavefrontOBJWriter objWriter = new WavefrontOBJWriter();
             IWavefrontMTLWriter mtlWriter = new WavefrontMTLWriter(texWriter);
 
