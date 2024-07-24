@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using FrozenAPE;
 using UnityEditor;
@@ -14,6 +15,7 @@ namespace FrozenAPE
         [MenuItem("Assets/FrozenAPE/Export as Wavefront OBJ...")]
         public static void ExportOBJ(MenuCommand menuCommand)
         {
+            ITextureWriter texWriter = new TexturePNGWriter();
             IWavefrontOBJWriter objWriter = new WavefrontOBJWriter();
             IWavefrontMTLWriter mtlWriter = new WavefrontMTLWriter();
 
@@ -63,6 +65,13 @@ namespace FrozenAPE
 
                     var mtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), materials);
                     File.WriteAllText(targetPathMtl, mtl);
+
+                    var textures = materials.Select(x => x.mainTexture);
+                    foreach (var tex in textures)
+                    {
+                        var buf = texWriter.WriteTexture(tex);
+                        File.WriteAllBytes(texWriter.NameTexture(tex), buf);
+                    }
                 }
 
                 foreach (var skinnedMeshRenderer in go.GetComponentsInChildren<SkinnedMeshRenderer>(true))
@@ -103,6 +112,13 @@ namespace FrozenAPE
 
                     var mtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), skinnedMeshRenderer.sharedMaterials);
                     File.WriteAllText(targetPathMtl, mtl);
+
+                    var textures = skinnedMeshRenderer.sharedMaterials.Select(x => x.mainTexture);
+                    foreach (var tex in textures)
+                    {
+                        var buf = texWriter.WriteTexture(tex);
+                        File.WriteAllBytes(texWriter.NameTexture(tex), buf);
+                    }
                 }
                 return;
             }
