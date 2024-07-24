@@ -7,7 +7,12 @@ namespace FrozenAPE
 {
     public class WavefrontMTLWriter : IWavefrontMTLWriter
     {
-        ITextureWriter textureWriter = new TexturePNGWriter();
+        ITextureWriter textureWriter;
+
+        public WavefrontMTLWriter(ITextureWriter textureWriter)
+        {
+            this.textureWriter = textureWriter;
+        }
 
         public string WriteMTL(string name, Material[] materials)
         {
