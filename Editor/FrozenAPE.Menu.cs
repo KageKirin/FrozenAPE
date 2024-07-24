@@ -17,7 +17,7 @@ namespace FrozenAPE
         {
             ITextureWriter texWriter = new TexturePNGWriter();
             IWavefrontOBJWriter objWriter = new WavefrontOBJWriter();
-            IWavefrontMTLWriter mtlWriter = new WavefrontMTLWriter();
+            IWavefrontMTLWriter mtlWriter = new WavefrontMTLWriter(texWriter);
 
             if (Selection.activeObject == null)
             {
