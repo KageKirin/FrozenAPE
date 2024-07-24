@@ -2,34 +2,30 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Rendering = UnityEngine.Experimental.Rendering;
 
 namespace FrozenAPE
 {
-    public class TextureTGAWriter : ITextureWriter
+    public class TextureTGAWriter : BaseTextureWriter
     {
-        public byte[] WriteTexture(Texture texture)
+        protected override string FileExtension
         {
-            Assert.IsNotNull(texture);
-            Assert.IsTrue(texture is Texture2D, "TextureTGAWriter only supports Texture2D");
-
-            if (texture is Texture2D)
-            {
-                return ImageConversion.EncodeToTGA(texture as Texture2D);
-            }
-
-            return null;
+            get => "tga";
         }
 
-        public string NameTexture(Texture texture)
+        protected override Func<
+            NativeArray<byte>, //< raw image bytes
+            Rendering.GraphicsFormat,
+            uint, //< width
+            uint, //< height
+            uint, //< rowBytes
+            NativeArray<byte> //< return
+        > EncodingFunc
         {
-            Assert.IsNotNull(texture);
-
-            if (Path.GetExtension(texture.name).ToLowerInvariant() == "tga")
-                return texture.name;
-
-            return $"{texture.name}.tga";
+            get => ImageConversion.EncodeNativeArrayToTGA;
         }
     }
 }
