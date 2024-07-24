@@ -59,8 +59,9 @@ namespace FrozenAPE
 
                     var materials = meshRenderer != null ? meshRenderer.sharedMaterials : Array.Empty<Material>();
                     var obj = objWriter.WriteOBJ(Path.GetFileNameWithoutExtension(targetPathObj), meshFilter.sharedMesh, materials);
-                    var mtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), materials);
                     File.WriteAllText(targetPathObj, obj);
+
+                    var mtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), materials);
                     File.WriteAllText(targetPathMtl, mtl);
                 }
 
@@ -98,8 +99,9 @@ namespace FrozenAPE
                         skinnedMeshRenderer.sharedMesh,
                         skinnedMeshRenderer.sharedMaterials
                     );
-                    var mtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), skinnedMeshRenderer.sharedMaterials);
                     File.WriteAllText(targetPathObj, obj);
+
+                    var mtl = mtlWriter.WriteMTL(Path.GetFileNameWithoutExtension(targetPathMtl), skinnedMeshRenderer.sharedMaterials);
                     File.WriteAllText(targetPathMtl, mtl);
                 }
                 return;
