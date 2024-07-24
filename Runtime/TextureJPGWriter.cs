@@ -2,34 +2,39 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Rendering = UnityEngine.Experimental.Rendering;
 
 namespace FrozenAPE
 {
-    public class TextureJPGWriter : ITextureWriter
+    public class TextureJPGWriter : BaseTextureWriter
     {
-        public byte[] WriteTexture(Texture texture)
+        protected override string FileExtension
         {
-            Assert.IsNotNull(texture);
-            Assert.IsTrue(texture is Texture2D, "TextureJPGWriter only supports Texture2D");
-
-            if (texture is Texture2D)
-            {
-                return ImageConversion.EncodeToJPG(texture as Texture2D);
-            }
-
-            return null;
+            get => "jpg";
         }
 
-        public string NameTexture(Texture texture)
+        protected override Func<
+            NativeArray<byte>, //< raw image bytes
+            Rendering.GraphicsFormat,
+            uint, //< width
+            uint, //< height
+            uint, //< rowBytes
+            NativeArray<byte> //< return
+        > EncodingFunc
         {
-            Assert.IsNotNull(texture);
-
-            if (Path.GetExtension(texture.name).ToLowerInvariant() == "jpg")
-                return texture.name;
-
-            return $"{texture.name}.jpg";
+            get =>
+                (NativeArray<byte> rawImageBytes, Rendering.GraphicsFormat graphicsFormat, uint width, uint height, uint rowBytes) =>
+                    ImageConversion.EncodeNativeArrayToJPG(
+                        input: rawImageBytes,
+                        format: graphicsFormat,
+                        width: width,
+                        height: height,
+                        rowBytes: rowBytes,
+                        quality: 100
+                    );
         }
     }
 }
