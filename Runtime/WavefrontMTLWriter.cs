@@ -7,6 +7,8 @@ namespace FrozenAPE
 {
     public class WavefrontMTLWriter : IWavefrontMTLWriter
     {
+        ITextureWriter textureWriter = new TexturePNGWriter();
+
         public string WriteMTL(string name, Material[] materials)
         {
             StringBuilder sb = new();
@@ -25,9 +27,9 @@ namespace FrozenAPE
                     .AppendLine($"d   {mainColor.a}") // alpha
                     .AppendLine($"Ks  0.0000  0.0000  0.0000") // TODO: fill with correct values (specular color)
                     .AppendLine($"Ns  0.0000") // TODO: fill with correct values (shininess)
-                    .AppendLine($"map_Ka {mainTexture.name}.png")
-                    .AppendLine($"map_Kd {mainTexture.name}.png")
-                    .AppendLine($"map_Ks {mainTexture.name}.png");
+                    .AppendLine($"map_Ka {textureWriter.NameTexture(mainTexture)}")
+                    .AppendLine($"map_Kd {textureWriter.NameTexture(mainTexture)}")
+                    .AppendLine($"map_Ks {textureWriter.NameTexture(mainTexture)}");
             }
 
             return sb.ToString();
