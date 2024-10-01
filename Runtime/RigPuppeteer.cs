@@ -30,7 +30,9 @@ namespace FrozenAPE
 
                 if (posedBone.position is not null)
                 {
+                    Debug.Log($"\tposing position {transforms[idx].position} to {posedBone.position}");
                     transforms[idx].position = (Vector3)math.float3((double3)posedBone.position!);
+                    Debug.Log($"\tposition is now {transforms[idx].position}");
                 }
 
                 if (posedBone.scaling is not null)
