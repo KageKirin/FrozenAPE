@@ -33,7 +33,10 @@ namespace FrozenAPE
                 if (posedBone.rotation is not null)
                 {
                     double3 transform_angles = (float3)transform.eulerAngles;
-                    var match = (int3)(posedBone.rotation * k_CutoffPrecision) == (int3)(transform_angles * k_CutoffPrecision);
+                    int3 transform_angles_comparand = (int3)(transform_angles * k_CutoffPrecision);
+                    int3 posedBone_rotation_comparand = (int3)(posedBone.rotation * k_CutoffPrecision);
+
+                    var match = posedBone_rotation_comparand == transform_angles_comparand;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
