@@ -29,7 +29,7 @@ namespace FrozenAPE
         public double3? rotation;
 
         /// <summary>
-        /// bone scaling
+        /// local bone scaling, i.e. relative to parent bone
         /// CANNOT BE 0
         /// </summary>
         public double3? scaling;
