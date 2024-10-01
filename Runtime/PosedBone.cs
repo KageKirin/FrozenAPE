@@ -19,7 +19,7 @@ namespace FrozenAPE
         public string targetBone;
 
         /// <summary>
-        /// bone position
+        /// local bone position, i.e. relative to parent bone
         /// </summary>
         public double3? position;
 
