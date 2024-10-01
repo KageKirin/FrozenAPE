@@ -15,7 +15,10 @@ namespace FrozenAPE
             {
                 int idx = Array.FindIndex(transforms, t => t.name == posedBone.targetBone);
                 if (idx < 0)
+                {
+                    Debug.LogWarning($"could not find bone {posedBone.targetBone}. skipping.");
                     continue;
+                }
 
                 if (posedBone.rotation is not null)
                 {
