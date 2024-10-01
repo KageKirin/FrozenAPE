@@ -37,7 +37,9 @@ namespace FrozenAPE
 
                 if (posedBone.scaling is not null)
                 {
+                    Debug.Log($"\tposing scale {transforms[idx].localScale} to {posedBone.scaling}");
                     transforms[idx].localScale = (Vector3)math.float3((double3)posedBone.scaling!);
+                    Debug.Log($"\tscale is now {transforms[idx].localScale}");
                 }
             }
         }
