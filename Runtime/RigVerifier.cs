@@ -61,7 +61,8 @@ namespace FrozenAPE
 
                 if (posedBone.scaling is not null)
                 {
-                    var match = (int3)(posedBone.scaling * k_CutoffPrecision) == (int3)((float3)transform.localScale * k_CutoffPrecision);
+                    double3 transform_scale = (float3)transform.localScale;
+                    var match = (int3)(posedBone.scaling * k_CutoffPrecision) == (int3)(transform_scale * k_CutoffPrecision);
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
