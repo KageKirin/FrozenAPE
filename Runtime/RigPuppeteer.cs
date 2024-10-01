@@ -23,7 +23,9 @@ namespace FrozenAPE
                 Debug.Log($"applying pose for bone {posedBone.targetBone} [{transforms[idx].name}]");
                 if (posedBone.rotation is not null)
                 {
+                    Debug.Log($"\tposing rotation {transforms[idx].eulerAngles} to {posedBone.rotation}");
                     transforms[idx].eulerAngles = (Vector3)math.float3((double3)posedBone.rotation!);
+                    Debug.Log($"\trotation is now {transforms[idx].eulerAngles}");
                 }
 
                 if (posedBone.position is not null)
