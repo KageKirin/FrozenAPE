@@ -52,7 +52,7 @@ namespace FrozenAPE
 
                 if (posedBone.position is not null)
                 {
-                    double3 transform_position = (float3)transform.position;
+                    double3 transform_position = (float3)transform.localPosition;
                     int3 transform_position_comparand = (int3)(transform_position * k_CutoffPrecision);
                     int3 posedBone_position_comparand = (int3)(posedBone.position * k_CutoffPrecision);
 
@@ -66,7 +66,7 @@ namespace FrozenAPE
                         Debug.LogError(
                             $"position mismatch for `{posedBone.targetBone}`: {match}"
                                 + $"\n Posed Bone position is {posedBone.position}"
-                                + $"\n transform position is {transform.position}"
+                                + $"\n transform position is {transform.localPosition}"
                         );
                 }
 
