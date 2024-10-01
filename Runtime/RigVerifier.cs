@@ -16,7 +16,8 @@ namespace FrozenAPE
         /// We proceed to an integer comparison after multiplying the comparison terms with this precision cutoff.
         /// The cutoff is currently set to 10k which is seemingly precise enough for all our needs.
         /// </summary>
-        const int k_CutoffPrecision = 10000;
+        const double k_CutoffPrecision = 10000.0;
+
         public virtual bool CheckPose(Transform[] transforms, in IEnumerable<PosedBone> posedBones)
         {
             List<bool> matches = new();
@@ -31,7 +32,8 @@ namespace FrozenAPE
 
                 if (posedBone.rotation is not null)
                 {
-                    var match = (int3)(posedBone.rotation * k_CutoffPrecision) == (int3)((float3)transform.eulerAngles * k_CutoffPrecision);
+                    double3 transform_angles = (float3)transform.eulerAngles;
+                    var match = (int3)(posedBone.rotation * k_CutoffPrecision) == (int3)(transform_angles * k_CutoffPrecision);
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
@@ -45,7 +47,8 @@ namespace FrozenAPE
 
                 if (posedBone.position is not null)
                 {
-                    var match = (int3)(posedBone.position * k_CutoffPrecision) == (int3)((float3)transform.position * k_CutoffPrecision);
+                    double3 transform_position = (float3)transform.position;
+                    var match = (int3)(posedBone.position * k_CutoffPrecision) == (int3)(transform_position * k_CutoffPrecision);
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
@@ -59,7 +62,8 @@ namespace FrozenAPE
 
                 if (posedBone.scaling is not null)
                 {
-                    var match = (int3)(posedBone.scaling * k_CutoffPrecision) == (int3)((float3)transform.localScale * k_CutoffPrecision);
+                    double3 transform_scale = (float3)transform.localScale;
+                    var match = (int3)(posedBone.scaling * k_CutoffPrecision) == (int3)(transform_scale * k_CutoffPrecision);
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
