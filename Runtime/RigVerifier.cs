@@ -41,6 +41,8 @@ namespace FrozenAPE
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
+                        Debug.Log($"transform angles: {transform_angles} [{transform_angles_comparand}]");
+                        Debug.Log($"posedBone rotation: {posedBone.rotation} [{posedBone_rotation_comparand}]");
                         Debug.LogError(
                             $"rotation mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone rotation is {posedBone.rotation}"
