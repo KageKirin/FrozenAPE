@@ -24,7 +24,7 @@ namespace FrozenAPE
         public double3? position;
 
         /// <summary>
-        /// bone rotation (Euler angles)
+        /// local bone rotation (Euler angles), i.e. relative to parent bone
         /// </summary>
         public double3? rotation;
 
