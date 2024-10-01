@@ -16,7 +16,8 @@ namespace FrozenAPE
         /// We proceed to an integer comparison after multiplying the comparison terms with this precision cutoff.
         /// The cutoff is currently set to 10k which is seemingly precise enough for all our needs.
         /// </summary>
-        const int k_CutoffPrecision = 10000;
+        const double k_CutoffPrecision = 10000.0;
+
         public virtual bool CheckPose(Transform[] transforms, in IEnumerable<PosedBone> posedBones)
         {
             List<bool> matches = new();
