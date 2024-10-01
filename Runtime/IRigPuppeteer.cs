@@ -12,7 +12,7 @@ namespace FrozenAPE
     public interface IRigPuppeteer
     {
         /// <summary>
-        /// poses the provided transforms into the position/orientation specified by the posed bones
+        /// poses the provided transforms into the local position/orientation specified by the posed bones
         /// </summary>
         /// <param name="transforms">transforms as returned by `<![CDATA[GameObject.GetComponentsInChildren<Transform>(true)]]>`</param>
         /// <param name="posedBones">1+ posed bones</param>
