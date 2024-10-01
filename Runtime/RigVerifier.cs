@@ -26,7 +26,7 @@ namespace FrozenAPE
                 var transform = transforms.Where(t => t.name == posedBone.targetBone).FirstOrDefault();
                 if (transform == null)
                 {
-                    Debug.LogWarning($"could not retrieve transform for {posedBone.targetBone}.");
+                    Debug.LogWarning($"could not retrieve transform for `{posedBone.targetBone}`.");
                     continue;
                 }
 
@@ -41,10 +41,10 @@ namespace FrozenAPE
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
-                        Debug.Log($"transform angles: {transform_angles} [{transform_angles_comparand}]");
-                        Debug.Log($"posedBone rotation: {posedBone.rotation} [{posedBone_rotation_comparand}]");
+                        Debug.Log($"transform `{transform.name}` angles: {transform_angles} [{transform_angles_comparand}]");
+                        Debug.Log($"posedBone `{posedBone.targetBone}` rotation: {posedBone.rotation} [{posedBone_rotation_comparand}]");
                         Debug.LogError(
-                            $"rotation mismatch for {posedBone.targetBone}: {match}"
+                            $"rotation mismatch for `{posedBone.targetBone}`: {match}"
                                 + $"\n Posed Bone rotation is {posedBone.rotation}"
                                 + $"\n transform rotation is {transform.eulerAngles}"
                         );
@@ -61,10 +61,10 @@ namespace FrozenAPE
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
-                        Debug.Log($"transform position: {transform_position} [{transform_position_comparand}]");
-                        Debug.Log($"posedBone position: {posedBone.position} [{posedBone_position_comparand}]");
+                        Debug.Log($"transform `{transform.name}` position: {transform_position} [{transform_position_comparand}]");
+                        Debug.Log($"posedBone `{posedBone.targetBone}` position: {posedBone.position} [{posedBone_position_comparand}]");
                         Debug.LogError(
-                            $"position mismatch for {posedBone.targetBone}: {match}"
+                            $"position mismatch for `{posedBone.targetBone}`: {match}"
                                 + $"\n Posed Bone position is {posedBone.position}"
                                 + $"\n transform position is {transform.position}"
                         );
@@ -81,10 +81,10 @@ namespace FrozenAPE
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
-                        Debug.Log($"transform scale: {transform_scale} [{transform_scale_comparand}]");
-                        Debug.Log($"transform scale: {posedBone.scaling} [{posedBone_scaling_comparand}]");
+                        Debug.Log($"transform `{transform.name}` scale: {transform_scale} [{transform_scale_comparand}]");
+                        Debug.Log($"transform `{transform.name}` scale: {posedBone.scaling} [{posedBone_scaling_comparand}]");
                         Debug.LogError(
-                            $"scaling mismatch for {posedBone.targetBone}: {match}"
+                            $"scaling mismatch for `{posedBone.targetBone}`: {match}"
                                 + $"\n Posed Bone scaling is {posedBone.scaling}"
                                 + $"\n transform scaling is {transform.localScale}"
                         );
