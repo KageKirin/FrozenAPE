@@ -19,17 +19,17 @@ namespace FrozenAPE
         public string targetBone;
 
         /// <summary>
-        /// bone position
+        /// local bone position, i.e. relative to parent bone
         /// </summary>
         public double3? position;
 
         /// <summary>
-        /// bone rotation (Euler angles)
+        /// local bone rotation (Euler angles), i.e. relative to parent bone
         /// </summary>
         public double3? rotation;
 
         /// <summary>
-        /// bone scaling
+        /// local bone scaling, i.e. relative to parent bone
         /// CANNOT BE 0
         /// </summary>
         public double3? scaling;

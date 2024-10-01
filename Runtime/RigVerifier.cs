@@ -32,7 +32,7 @@ namespace FrozenAPE
 
                 if (posedBone.rotation is not null)
                 {
-                    double3 transform_angles = (float3)transform.eulerAngles;
+                    double3 transform_angles = (float3)transform.localEulerAngles;
                     int3 transform_angles_comparand = (int3)(transform_angles * k_CutoffPrecision);
                     int3 posedBone_rotation_comparand = (int3)(posedBone.rotation * k_CutoffPrecision);
 
@@ -46,13 +46,13 @@ namespace FrozenAPE
                         Debug.LogError(
                             $"rotation mismatch for `{posedBone.targetBone}`: {match}"
                                 + $"\n Posed Bone rotation is {posedBone.rotation}"
-                                + $"\n transform rotation is {transform.eulerAngles}"
+                                + $"\n transform rotation is {transform.localEulerAngles}"
                         );
                 }
 
                 if (posedBone.position is not null)
                 {
-                    double3 transform_position = (float3)transform.position;
+                    double3 transform_position = (float3)transform.localPosition;
                     int3 transform_position_comparand = (int3)(transform_position * k_CutoffPrecision);
                     int3 posedBone_position_comparand = (int3)(posedBone.position * k_CutoffPrecision);
 
@@ -66,7 +66,7 @@ namespace FrozenAPE
                         Debug.LogError(
                             $"position mismatch for `{posedBone.targetBone}`: {match}"
                                 + $"\n Posed Bone position is {posedBone.position}"
-                                + $"\n transform position is {transform.position}"
+                                + $"\n transform position is {transform.localPosition}"
                         );
                 }
 

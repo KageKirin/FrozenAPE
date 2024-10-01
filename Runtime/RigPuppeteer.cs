@@ -23,16 +23,16 @@ namespace FrozenAPE
                 Debug.Log($"applying pose for bone `{posedBone.targetBone}` [{transforms[idx].name}]");
                 if (posedBone.rotation is not null)
                 {
-                    Debug.Log($"\tposing `{transforms[idx].name}` rotation {transforms[idx].eulerAngles} to {posedBone.rotation}");
-                    transforms[idx].eulerAngles = (Vector3)math.float3((double3)posedBone.rotation!);
-                    Debug.Log($"\t`{transforms[idx].name}` rotation is now {transforms[idx].eulerAngles}");
+                    Debug.Log($"\tposing `{transforms[idx].name}` rotation {transforms[idx].localEulerAngles} to {posedBone.rotation}");
+                    transforms[idx].localEulerAngles = (Vector3)math.float3((double3)posedBone.rotation!);
+                    Debug.Log($"\t`{transforms[idx].name}` rotation is now {transforms[idx].localEulerAngles}");
                 }
 
                 if (posedBone.position is not null)
                 {
-                    Debug.Log($"\tposing `{transforms[idx].name}` position {transforms[idx].position} to {posedBone.position}");
-                    transforms[idx].position = (Vector3)math.float3((double3)posedBone.position!);
-                    Debug.Log($"\t`{transforms[idx].name}` position is now {transforms[idx].position}");
+                    Debug.Log($"\tposing `{transforms[idx].name}` position {transforms[idx].localPosition} to {posedBone.position}");
+                    transforms[idx].localPosition = (Vector3)math.float3((double3)posedBone.position!);
+                    Debug.Log($"\t`{transforms[idx].name}` position is now {transforms[idx].localPosition}");
                 }
 
                 if (posedBone.scaling is not null)
@@ -57,8 +57,8 @@ namespace FrozenAPE
             {
                 PosedBone posedBone = new();
                 posedBone.targetBone = transform.name;
-                posedBone.rotation = (float3)transform.eulerAngles;
-                posedBone.position = (float3)transform.position;
+                posedBone.rotation = (float3)transform.localEulerAngles;
+                posedBone.position = (float3)transform.localPosition;
                 posedBone.scaling = (float3)transform.localScale;
 
                 posedBoneList.Add(posedBone);
@@ -73,8 +73,8 @@ namespace FrozenAPE
 
             foreach (var transform in transforms)
             {
-                transform.eulerAngles = (float3)transform.eulerAngles + random.NextFloat3(-30, 30);
-                transform.position = (float3)transform.position + random.NextFloat3(-0.1f, 0.1f);
+                transform.localEulerAngles = (float3)transform.localEulerAngles + random.NextFloat3(-30, 30);
+                transform.localPosition = (float3)transform.localPosition + random.NextFloat3(-0.1f, 0.1f);
                 transform.localScale = (float3)transform.localScale * random.NextFloat3(0.9f, 1.1f);
             }
         }
