@@ -57,7 +57,7 @@ namespace FrozenAPE
             {
                 PosedBone posedBone = new();
                 posedBone.targetBone = transform.name;
-                posedBone.rotation = (float3)transform.eulerAngles;
+                posedBone.rotation = (float3)transform.localEulerAngles;
                 posedBone.position = (float3)transform.position;
                 posedBone.scaling = (float3)transform.localScale;
 
