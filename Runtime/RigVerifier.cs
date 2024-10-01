@@ -81,6 +81,8 @@ namespace FrozenAPE
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
+                        Debug.Log($"transform scale: {transform_scale} [{transform_scale_comparand}]");
+                        Debug.Log($"transform scale: {posedBone.scaling} [{posedBone_scaling_comparand}]");
                         Debug.LogError(
                             $"scaling mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone scaling is {posedBone.scaling}"
