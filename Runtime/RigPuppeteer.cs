@@ -15,21 +15,31 @@ namespace FrozenAPE
             {
                 int idx = Array.FindIndex(transforms, t => t.name == posedBone.targetBone);
                 if (idx < 0)
+                {
+                    Debug.LogWarning($"could not find bone {posedBone.targetBone}. skipping.");
                     continue;
+                }
 
+                Debug.Log($"applying pose for bone {posedBone.targetBone} [{transforms[idx].name}]");
                 if (posedBone.rotation is not null)
                 {
+                    Debug.Log($"\tposing rotation {transforms[idx].eulerAngles} to {posedBone.rotation}");
                     transforms[idx].eulerAngles = (Vector3)math.float3((double3)posedBone.rotation!);
+                    Debug.Log($"\trotation is now {transforms[idx].eulerAngles}");
                 }
 
                 if (posedBone.position is not null)
                 {
+                    Debug.Log($"\tposing position {transforms[idx].position} to {posedBone.position}");
                     transforms[idx].position = (Vector3)math.float3((double3)posedBone.position!);
+                    Debug.Log($"\tposition is now {transforms[idx].position}");
                 }
 
                 if (posedBone.scaling is not null)
                 {
+                    Debug.Log($"\tposing scale {transforms[idx].localScale} to {posedBone.scaling}");
                     transforms[idx].localScale = (Vector3)math.float3((double3)posedBone.scaling!);
+                    Debug.Log($"\tscale is now {transforms[idx].localScale}");
                 }
             }
         }
