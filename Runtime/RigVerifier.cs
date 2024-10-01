@@ -33,11 +33,16 @@ namespace FrozenAPE
                 if (posedBone.rotation is not null)
                 {
                     double3 transform_angles = (float3)transform.eulerAngles;
-                    var match = (int3)(posedBone.rotation * k_CutoffPrecision) == (int3)(transform_angles * k_CutoffPrecision);
+                    int3 transform_angles_comparand = (int3)(transform_angles * k_CutoffPrecision);
+                    int3 posedBone_rotation_comparand = (int3)(posedBone.rotation * k_CutoffPrecision);
+
+                    var match = posedBone_rotation_comparand == transform_angles_comparand;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
+                        Debug.Log($"transform angles: {transform_angles} [{transform_angles_comparand}]");
+                        Debug.Log($"posedBone rotation: {posedBone.rotation} [{posedBone_rotation_comparand}]");
                         Debug.LogError(
                             $"rotation mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone rotation is {posedBone.rotation}"
@@ -48,11 +53,16 @@ namespace FrozenAPE
                 if (posedBone.position is not null)
                 {
                     double3 transform_position = (float3)transform.position;
-                    var match = (int3)(posedBone.position * k_CutoffPrecision) == (int3)(transform_position * k_CutoffPrecision);
+                    int3 transform_position_comparand = (int3)(transform_position * k_CutoffPrecision);
+                    int3 posedBone_position_comparand = (int3)(posedBone.position * k_CutoffPrecision);
+
+                    var match = posedBone_position_comparand == transform_position_comparand;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
+                        Debug.Log($"transform position: {transform_position} [{transform_position_comparand}]");
+                        Debug.Log($"posedBone position: {posedBone.position} [{posedBone_position_comparand}]");
                         Debug.LogError(
                             $"position mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone position is {posedBone.position}"
@@ -63,11 +73,16 @@ namespace FrozenAPE
                 if (posedBone.scaling is not null)
                 {
                     double3 transform_scale = (float3)transform.localScale;
-                    var match = (int3)(posedBone.scaling * k_CutoffPrecision) == (int3)(transform_scale * k_CutoffPrecision);
+                    int3 transform_scale_comparand = (int3)(transform_scale * k_CutoffPrecision);
+                    int3 posedBone_scaling_comparand = (int3)(posedBone.scaling * k_CutoffPrecision);
+
+                    var match = posedBone_scaling_comparand == transform_scale_comparand;
                     matches.Add(match.x);
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
+                        Debug.Log($"transform scale: {transform_scale} [{transform_scale_comparand}]");
+                        Debug.Log($"transform scale: {posedBone.scaling} [{posedBone_scaling_comparand}]");
                         Debug.LogError(
                             $"scaling mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone scaling is {posedBone.scaling}"
