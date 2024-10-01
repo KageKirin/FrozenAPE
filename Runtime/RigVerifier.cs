@@ -61,6 +61,8 @@ namespace FrozenAPE
                     matches.Add(match.y);
                     matches.Add(match.z);
                     if (!(match.x && match.y && match.z))
+                        Debug.Log($"transform position: {transform_position} [{transform_position_comparand}]");
+                        Debug.Log($"posedBone position: {posedBone.position} [{posedBone_position_comparand}]");
                         Debug.LogError(
                             $"position mismatch for {posedBone.targetBone}: {match}"
                                 + $"\n Posed Bone position is {posedBone.position}"
