@@ -20,6 +20,7 @@ namespace FrozenAPE
                     continue;
                 }
 
+                Debug.Log($"applying pose for bone {posedBone.targetBone} [{transforms[idx].name}]");
                 if (posedBone.rotation is not null)
                 {
                     transforms[idx].eulerAngles = (Vector3)math.float3((double3)posedBone.rotation!);
