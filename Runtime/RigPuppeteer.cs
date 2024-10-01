@@ -73,7 +73,7 @@ namespace FrozenAPE
 
             foreach (var transform in transforms)
             {
-                transform.eulerAngles = (float3)transform.eulerAngles + random.NextFloat3(-30, 30);
+                transform.localEulerAngles = (float3)transform.localEulerAngles + random.NextFloat3(-30, 30);
                 transform.position = (float3)transform.position + random.NextFloat3(-0.1f, 0.1f);
                 transform.localScale = (float3)transform.localScale * random.NextFloat3(0.9f, 1.1f);
             }
