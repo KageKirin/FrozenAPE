@@ -3,7 +3,7 @@
   "version": "0.4.3",
   "displayName": "Frozen A-Pose Exporter 🧊🦍",
   "description": "Editor and Runtime exporter for skinned meshes frozen in a specific pose as static mesh",
-  "unity": "2023.1",
+  "unity": "2023.2",
   "license": "MIT",
   "files": [
     "**/*.meta",
