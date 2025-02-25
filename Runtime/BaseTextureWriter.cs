@@ -14,7 +14,10 @@ namespace FrozenAPE
         public byte[] WriteTexture(Texture texture)
         {
             Assert.IsNotNull(texture);
-            Debug.Log($"reading texture (w:{texture.width}, h:{texture.height}, d:{GetTextureDepth(texture)}):", texture);
+            Debug.Log(
+                $"reading texture (w:{texture.width}, h:{texture.height}, d:{GetTextureDepth(texture)}, f:{texture.graphicsFormat}):",
+                texture
+            );
 
             NativeArray<byte> imageBytes = FetchPixels(texture);
             Debug.Log($"image data {imageBytes}: {imageBytes.Length} bytes");
