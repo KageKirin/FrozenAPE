@@ -19,6 +19,7 @@ namespace FrozenAPE
 
             try
             {
+                Debug.Log("fetching data through Texture.GetPixelData()");
                 if (texture is Texture2D)
                 {
                     imageBytes = (texture as Texture2D).GetPixelData<byte>(mipLevel: 0);
@@ -42,6 +43,7 @@ namespace FrozenAPE
             // alternative (safer, slower) approach to get pixel data
             if (imageBytes != null && imageBytes.Length > 0)
             {
+                Debug.Log("fetching data through Texture.GetPixels32()");
                 Color32[] colors = default;
                 if (texture is Texture2D)
                 {
