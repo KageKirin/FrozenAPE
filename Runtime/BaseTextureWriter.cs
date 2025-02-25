@@ -32,6 +32,38 @@ namespace FrozenAPE
                 texture_depth = (uint)(texture as Texture2DArray).depth;
             }
 
+            // alternative (safer, slower) approach to get pixel data
+            if (imageBytes != null && imageBytes.Length > 0)
+            {
+                Color32[] colors = default;
+                if (texture is Texture2D)
+                {
+                    colors = (texture as Texture2D).GetPixels32(miplevel: 0);
+                }
+                else if (texture is Texture3D)
+                {
+                    colors = (texture as Texture3D).GetPixels32(miplevel: 0);
+                    texture_depth = (uint)(texture as Texture3D).depth;
+                }
+                else if (texture is Texture2DArray)
+                {
+                    colors = (texture as Texture2DArray).GetPixels32(miplevel: 0, arrayElement: 0);
+                    texture_depth = (uint)(texture as Texture2DArray).depth;
+                }
+
+                if (colors != null && colors.Length > 0)
+                {
+                    imageBytes = new NativeArray<byte>(colors.Length * 4, Allocator.Temp);
+                    for (int i = 0; i < colors.Length; i++)
+                    {
+                        imageBytes[i * 4 + 0] = colors[i].r;
+                        imageBytes[i * 4 + 1] = colors[i].g;
+                        imageBytes[i * 4 + 2] = colors[i].b;
+                        imageBytes[i * 4 + 3] = colors[i].a;
+                    }
+                }
+            }
+
             if (imageBytes != null && imageBytes.Length > 0)
             {
                 using NativeArray<byte> bytes = EncodingFunc(
