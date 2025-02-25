@@ -19,22 +19,22 @@ namespace FrozenAPE
                 texture
             );
 
-            NativeArray<byte> imageBytes = FetchPixels(texture);
+            var imageBytes = FetchPixels(texture);
             Debug.Log($"image data {imageBytes}: {imageBytes.Length} bytes");
 
             if (imageBytes != null && imageBytes.Length > 0)
             {
-                using NativeArray<byte> encodedBytes = EncodingFunc(
+                var encodedBytes = EncodingFunc(
                     imageBytes,
                     texture.graphicsFormat,
                     (uint)texture.width,
                     (uint)texture.height * (uint)GetTextureDepth(texture),
                     0
                 );
+                Assert.IsNotNull(encodedBytes);
 
                 Debug.Log($"encoded data {encodedBytes}: {encodedBytes.Length} bytes");
-                if (encodedBytes != null && encodedBytes.Length > 0)
-                    return encodedBytes.ToArray();
+                return encodedBytes;
             }
             return Array.Empty<byte>();
         }
