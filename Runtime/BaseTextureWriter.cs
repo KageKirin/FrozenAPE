@@ -80,7 +80,9 @@ namespace FrozenAPE
                     (uint)texture.height * texture_depth,
                     0
                 );
-                return bytes.ToArray();
+
+                if (bytes != null && bytes.Length > 0)
+                    return bytes.ToArray();
             }
             return Array.Empty<byte>();
         }
