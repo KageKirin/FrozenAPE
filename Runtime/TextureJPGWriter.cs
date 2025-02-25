@@ -17,18 +17,18 @@ namespace FrozenAPE
         }
 
         protected override Func<
-            NativeArray<byte>, //< raw image bytes
+            byte[], //< raw image bytes
             Rendering.GraphicsFormat,
             uint, //< width
             uint, //< height
             uint, //< rowBytes
-            NativeArray<byte> //< return
+            byte[] //< return
         > EncodingFunc
         {
             get =>
-                (NativeArray<byte> rawImageBytes, Rendering.GraphicsFormat graphicsFormat, uint width, uint height, uint rowBytes) =>
-                    ImageConversion.EncodeNativeArrayToJPG(
-                        input: rawImageBytes,
+                (rawImageBytes, graphicsFormat, width, height, rowBytes) =>
+                    ImageConversion.EncodeArrayToJPG(
+                        array: rawImageBytes,
                         format: graphicsFormat,
                         width: width,
                         height: height,
