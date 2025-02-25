@@ -32,14 +32,18 @@ namespace FrozenAPE
                 texture_depth = (uint)(texture as Texture2DArray).depth;
             }
 
-            using NativeArray<byte> bytes = EncodingFunc(
-                imageBytes,
-                texture.graphicsFormat,
-                (uint)texture.width,
-                (uint)texture.height * texture_depth,
-                0
-            );
-            return bytes.ToArray();
+            if (imageBytes != null && imageBytes.Length > 0)
+            {
+                using NativeArray<byte> bytes = EncodingFunc(
+                    imageBytes,
+                    texture.graphicsFormat,
+                    (uint)texture.width,
+                    (uint)texture.height * texture_depth,
+                    0
+                );
+                return bytes.ToArray();
+            }
+            return Array.Empty<byte>();
         }
 
         public string NameTexture(Texture texture)
