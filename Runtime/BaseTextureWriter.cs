@@ -167,5 +167,54 @@ namespace FrozenAPE
             NativeArray<byte> empty = default;
             return empty;
         }
+
+        /// <summary>
+        /// fetches pixels from the given texture using .GetPixels32()
+        /// returns a native array containing the data
+        /// </summary>
+        /// <param name="texture">texture to read (must be set to readable)</param>
+        /// <returns>native array containing the data</returns>
+        protected virtual NativeArray<byte> FetchPixels(Texture texture)
+        {
+            Debug.Log("fetching data through Texture.GetPixels32()");
+
+            try
+            {
+                Color32[] colors = default;
+                if (texture is Texture2D)
+                {
+                    colors = (texture as Texture2D).GetPixels32(miplevel: 0);
+                }
+                else if (texture is Texture3D)
+                {
+                    colors = (texture as Texture3D).GetPixels32(miplevel: 0);
+                }
+                else if (texture is Texture2DArray)
+                {
+                    colors = (texture as Texture2DArray).GetPixels32(miplevel: 0, arrayElement: 0);
+                }
+
+                if (colors != null && colors.Length > 0)
+                {
+                    int textureDepth = GetTextureDepth(texture);
+                    NativeArray<byte> imageBytes = new NativeArray<byte>(colors.Length * textureDepth * 4, Allocator.Persistent);
+                    for (int i = 0; i < colors.Length * textureDepth; i++)
+                    {
+                        imageBytes[i * 4 + 0] = colors[i].r;
+                        imageBytes[i * 4 + 1] = colors[i].g;
+                        imageBytes[i * 4 + 2] = colors[i].b;
+                        imageBytes[i * 4 + 3] = colors[i].a;
+                    }
+                    return imageBytes;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"failed to access texture data using Texture.GetPixels32(): {ex}");
+            }
+
+            NativeArray<byte> empty = default;
+            return empty;
+        }
     }
 }
