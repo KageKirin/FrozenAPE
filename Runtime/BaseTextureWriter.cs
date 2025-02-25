@@ -14,24 +14,27 @@ namespace FrozenAPE
         public byte[] WriteTexture(Texture texture)
         {
             Assert.IsNotNull(texture);
-            Debug.Log($"reading texture (w:{texture.width}, h:{texture.height}, d:{GetTextureDepth(texture)}):", texture);
+            Debug.Log(
+                $"reading texture (w:{texture.width}, h:{texture.height}, d:{GetTextureDepth(texture)}, f:{texture.graphicsFormat}):",
+                texture
+            );
 
-            NativeArray<byte> imageBytes = FetchPixels(texture);
+            var imageBytes = FetchPixels(texture);
             Debug.Log($"image data {imageBytes}: {imageBytes.Length} bytes");
 
             if (imageBytes != null && imageBytes.Length > 0)
             {
-                using NativeArray<byte> encodedBytes = EncodingFunc(
+                var encodedBytes = EncodingFunc(
                     imageBytes,
                     texture.graphicsFormat,
                     (uint)texture.width,
                     (uint)texture.height * (uint)GetTextureDepth(texture),
                     0
                 );
+                Assert.IsNotNull(encodedBytes);
 
                 Debug.Log($"encoded data {encodedBytes}: {encodedBytes.Length} bytes");
-                if (encodedBytes != null && encodedBytes.Length > 0)
-                    return encodedBytes.ToArray();
+                return encodedBytes;
             }
             return Array.Empty<byte>();
         }
@@ -53,15 +56,15 @@ namespace FrozenAPE
 
         /// <summary>
         /// the encoding function
-        /// signature matches ImageConversion.EncodeNativeArrayTo[PNG|TGA|JPG|EXR]
+        /// signature matches ImageConversion.EncodeArrayTo[PNG|TGA|JPG|EXR]
         /// </summary>
         protected abstract Func<
-            NativeArray<byte>, //< raw image bytes
+            byte[], //< raw image bytes
             Rendering.GraphicsFormat,
             uint, //< width
             uint, //< height
             uint, //< rowBytes
-            NativeArray<byte> //< return
+            byte[] //< return
         > EncodingFunc { get; }
 
         /// <summary>
@@ -87,7 +90,7 @@ namespace FrozenAPE
         /// </summary>
         /// <param name="texture">texture to read (must be set to readable)</param>
         /// <returns>native array containing the data</returns>
-        protected virtual NativeArray<byte> FetchPixelsFast(Texture texture)
+        protected virtual byte[] FetchPixelsFast(Texture texture)
         {
             Debug.Log("fetching data through Texture.GetPixelData()");
 
@@ -95,24 +98,23 @@ namespace FrozenAPE
             {
                 if (texture is Texture2D)
                 {
-                    return (texture as Texture2D).GetPixelData<byte>(mipLevel: 0);
+                    return (texture as Texture2D).GetPixelData<byte>(mipLevel: 0).ToArray();
                 }
                 else if (texture is Texture3D)
                 {
-                    return (texture as Texture3D).GetPixelData<byte>(mipLevel: 0);
+                    return (texture as Texture3D).GetPixelData<byte>(mipLevel: 0).ToArray();
                 }
                 else if (texture is Texture2DArray)
                 {
-                    return (texture as Texture2DArray).GetPixelData<byte>(mipLevel: 0, element: 0);
+                    return (texture as Texture2DArray).GetPixelData<byte>(mipLevel: 0, element: 0).ToArray();
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"failed to access texture data using Texture.GetPixelData<byte>(): {ex}");
+                Debug.LogError($"failed to access texture data using Texture.GetPixelData<byte>(): {ex}");
             }
 
-            NativeArray<byte> empty = default;
-            return empty;
+            return Array.Empty<byte>();
         }
 
         /// <summary>
@@ -121,7 +123,7 @@ namespace FrozenAPE
         /// </summary>
         /// <param name="texture">texture to read (must be set to readable)</param>
         /// <returns>native array containing the data</returns>
-        protected virtual NativeArray<byte> FetchPixels(Texture texture)
+        protected virtual byte[] FetchPixels(Texture texture)
         {
             Debug.Log("fetching data through Texture.GetPixels32()");
 
@@ -144,7 +146,7 @@ namespace FrozenAPE
                 if (colors != null && colors.Length > 0)
                 {
                     int textureDepth = GetTextureDepth(texture);
-                    NativeArray<byte> imageBytes = new NativeArray<byte>(colors.Length * textureDepth * 4, Allocator.Persistent);
+                    byte[] imageBytes = new byte[colors.Length * textureDepth * 4];
                     for (int i = 0; i < colors.Length * textureDepth; i++)
                     {
                         imageBytes[i * 4 + 0] = colors[i].r;
@@ -157,11 +159,10 @@ namespace FrozenAPE
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"failed to access texture data using Texture.GetPixels32(): {ex}");
+                Debug.LogError($"failed to access texture data using Texture.GetPixels32(): {ex}");
             }
 
-            NativeArray<byte> empty = default;
-            return empty;
+            return Array.Empty<byte>();
         }
     }
 }

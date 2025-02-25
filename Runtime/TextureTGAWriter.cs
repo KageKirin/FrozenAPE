@@ -17,15 +17,15 @@ namespace FrozenAPE
         }
 
         protected override Func<
-            NativeArray<byte>, //< raw image bytes
+            byte[], //< raw image bytes
             Rendering.GraphicsFormat,
             uint, //< width
             uint, //< height
             uint, //< rowBytes
-            NativeArray<byte> //< return
+            byte[] //< return
         > EncodingFunc
         {
-            get => ImageConversion.EncodeNativeArrayToTGA;
+            get => ImageConversion.EncodeArrayToTGA;
         }
     }
 }
