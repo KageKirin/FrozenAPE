@@ -61,7 +61,7 @@ namespace FrozenAPE
                 if (colors != null && colors.Length > 0)
                 {
                     imageBytes = new NativeArray<byte>(colors.Length * (int)texture_depth * 4, Allocator.Temp);
-                    for (int i = 0; i < colors.Length; i++)
+                    for (int i = 0; i < colors.Length * (int)texture_depth; i++)
                     {
                         imageBytes[i * 4 + 0] = colors[i].r;
                         imageBytes[i * 4 + 1] = colors[i].g;
