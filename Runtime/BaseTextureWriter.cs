@@ -14,77 +14,24 @@ namespace FrozenAPE
         public byte[] WriteTexture(Texture texture)
         {
             Assert.IsNotNull(texture);
-            NativeArray<byte> imageBytes = default;
-            uint texture_depth = 1;
+            Debug.Log($"reading texture (w:{texture.width}, h:{texture.height}, d:{GetTextureDepth(texture)}):", texture);
 
-            try
-            {
-                Debug.Log("fetching data through Texture.GetPixelData()");
-                if (texture is Texture2D)
-                {
-                    imageBytes = (texture as Texture2D).GetPixelData<byte>(mipLevel: 0);
-                }
-                else if (texture is Texture3D)
-                {
-                    imageBytes = (texture as Texture3D).GetPixelData<byte>(mipLevel: 0);
-                    texture_depth = (uint)(texture as Texture3D).depth;
-                }
-                else if (texture is Texture2DArray)
-                {
-                    imageBytes = (texture as Texture2DArray).GetPixelData<byte>(mipLevel: 0, element: 0);
-                    texture_depth = (uint)(texture as Texture2DArray).depth;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"failed to access texture data using Texture.GetPixelData<byte>(): {ex}");
-            }
-
-            // alternative (safer, slower) approach to get pixel data
-            if (imageBytes != null && imageBytes.Length > 0)
-            {
-                Debug.Log("fetching data through Texture.GetPixels32()");
-                Color32[] colors = default;
-                if (texture is Texture2D)
-                {
-                    colors = (texture as Texture2D).GetPixels32(miplevel: 0);
-                }
-                else if (texture is Texture3D)
-                {
-                    colors = (texture as Texture3D).GetPixels32(miplevel: 0);
-                    texture_depth = (uint)(texture as Texture3D).depth;
-                }
-                else if (texture is Texture2DArray)
-                {
-                    colors = (texture as Texture2DArray).GetPixels32(miplevel: 0, arrayElement: 0);
-                    texture_depth = (uint)(texture as Texture2DArray).depth;
-                }
-
-                if (colors != null && colors.Length > 0)
-                {
-                    imageBytes = new NativeArray<byte>(colors.Length * (int)texture_depth * 4, Allocator.Temp);
-                    for (int i = 0; i < colors.Length * (int)texture_depth; i++)
-                    {
-                        imageBytes[i * 4 + 0] = colors[i].r;
-                        imageBytes[i * 4 + 1] = colors[i].g;
-                        imageBytes[i * 4 + 2] = colors[i].b;
-                        imageBytes[i * 4 + 3] = colors[i].a;
-                    }
-                }
-            }
+            NativeArray<byte> imageBytes = FetchPixels(texture);
+            Debug.Log($"image data {imageBytes}: {imageBytes.Length} bytes");
 
             if (imageBytes != null && imageBytes.Length > 0)
             {
-                using NativeArray<byte> bytes = EncodingFunc(
+                using NativeArray<byte> encodedBytes = EncodingFunc(
                     imageBytes,
                     texture.graphicsFormat,
                     (uint)texture.width,
-                    (uint)texture.height * texture_depth,
+                    (uint)texture.height * (uint)GetTextureDepth(texture),
                     0
                 );
 
-                if (bytes != null && bytes.Length > 0)
-                    return bytes.ToArray();
+                Debug.Log($"encoded data {encodedBytes}: {encodedBytes.Length} bytes");
+                if (encodedBytes != null && encodedBytes.Length > 0)
+                    return encodedBytes.ToArray();
             }
             return Array.Empty<byte>();
         }
@@ -116,5 +63,105 @@ namespace FrozenAPE
             uint, //< rowBytes
             NativeArray<byte> //< return
         > EncodingFunc { get; }
+
+        /// <summary>
+        /// retrieves the texture's depth (3D: depth, 2DArray: #slices)
+        /// defaults to 1 for 1D/2D textures
+        /// </summary>
+        /// <param name="texture">texture to get data from</param>
+        /// <returns>texture depth/#slices if applicable, else 1</returns>
+        protected virtual int GetTextureDepth(Texture texture)
+        {
+            if (texture is Texture3D)
+                return (texture as Texture3D).depth;
+
+            if (texture is Texture2DArray)
+                return (texture as Texture2DArray).depth;
+
+            return 1;
+        }
+
+        /// <summary>
+        /// fetches pixels from the given texture using .GetPixelData()
+        /// returns a native array containing the data
+        /// </summary>
+        /// <param name="texture">texture to read (must be set to readable)</param>
+        /// <returns>native array containing the data</returns>
+        protected virtual NativeArray<byte> FetchPixelsFast(Texture texture)
+        {
+            Debug.Log("fetching data through Texture.GetPixelData()");
+
+            try
+            {
+                if (texture is Texture2D)
+                {
+                    return (texture as Texture2D).GetPixelData<byte>(mipLevel: 0);
+                }
+                else if (texture is Texture3D)
+                {
+                    return (texture as Texture3D).GetPixelData<byte>(mipLevel: 0);
+                }
+                else if (texture is Texture2DArray)
+                {
+                    return (texture as Texture2DArray).GetPixelData<byte>(mipLevel: 0, element: 0);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"failed to access texture data using Texture.GetPixelData<byte>(): {ex}");
+            }
+
+            NativeArray<byte> empty = default;
+            return empty;
+        }
+
+        /// <summary>
+        /// fetches pixels from the given texture using .GetPixels32()
+        /// returns a native array containing the data
+        /// </summary>
+        /// <param name="texture">texture to read (must be set to readable)</param>
+        /// <returns>native array containing the data</returns>
+        protected virtual NativeArray<byte> FetchPixels(Texture texture)
+        {
+            Debug.Log("fetching data through Texture.GetPixels32()");
+
+            try
+            {
+                Color32[] colors = default;
+                if (texture is Texture2D)
+                {
+                    colors = (texture as Texture2D).GetPixels32(miplevel: 0);
+                }
+                else if (texture is Texture3D)
+                {
+                    colors = (texture as Texture3D).GetPixels32(miplevel: 0);
+                }
+                else if (texture is Texture2DArray)
+                {
+                    colors = (texture as Texture2DArray).GetPixels32(miplevel: 0, arrayElement: 0);
+                }
+
+                if (colors != null && colors.Length > 0)
+                {
+                    int textureDepth = GetTextureDepth(texture);
+                    NativeArray<byte> imageBytes = new NativeArray<byte>(colors.Length * textureDepth * 4, Allocator.Persistent);
+                    for (int i = 0; i < colors.Length * textureDepth; i++)
+                    {
+                        imageBytes[i * 4 + 0] = colors[i].r;
+                        imageBytes[i * 4 + 1] = colors[i].g;
+                        imageBytes[i * 4 + 2] = colors[i].b;
+                        imageBytes[i * 4 + 3] = colors[i].a;
+                    }
+                    return imageBytes;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"failed to access texture data using Texture.GetPixels32(): {ex}");
+            }
+
+            NativeArray<byte> empty = default;
+            return empty;
+        }
     }
 }
