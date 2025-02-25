@@ -17,19 +17,26 @@ namespace FrozenAPE
             NativeArray<byte> imageBytes = default;
             uint texture_depth = 1;
 
-            if (texture is Texture2D)
+            try
             {
-                imageBytes = (texture as Texture2D).GetPixelData<byte>(mipLevel: 0);
+                if (texture is Texture2D)
+                {
+                    imageBytes = (texture as Texture2D).GetPixelData<byte>(mipLevel: 0);
+                }
+                else if (texture is Texture3D)
+                {
+                    imageBytes = (texture as Texture3D).GetPixelData<byte>(mipLevel: 0);
+                    texture_depth = (uint)(texture as Texture3D).depth;
+                }
+                else if (texture is Texture2DArray)
+                {
+                    imageBytes = (texture as Texture2DArray).GetPixelData<byte>(mipLevel: 0, element: 0);
+                    texture_depth = (uint)(texture as Texture2DArray).depth;
+                }
             }
-            else if (texture is Texture3D)
+            catch (Exception ex)
             {
-                imageBytes = (texture as Texture3D).GetPixelData<byte>(mipLevel: 0);
-                texture_depth = (uint)(texture as Texture3D).depth;
-            }
-            else if (texture is Texture2DArray)
-            {
-                imageBytes = (texture as Texture2DArray).GetPixelData<byte>(mipLevel: 0, element: 0);
-                texture_depth = (uint)(texture as Texture2DArray).depth;
+                Debug.LogWarning($"failed to access texture data using Texture.GetPixelData<byte>(): {ex}");
             }
 
             // alternative (safer, slower) approach to get pixel data
