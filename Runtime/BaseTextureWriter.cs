@@ -123,7 +123,7 @@ namespace FrozenAPE
         /// </summary>
         /// <param name="texture">texture to read (must be set to readable)</param>
         /// <returns>native array containing the data</returns>
-        protected virtual NativeArray<byte> FetchPixels(Texture texture)
+        protected virtual byte[] FetchPixels(Texture texture)
         {
             Debug.Log("fetching data through Texture.GetPixels32()");
 
@@ -146,7 +146,7 @@ namespace FrozenAPE
                 if (colors != null && colors.Length > 0)
                 {
                     int textureDepth = GetTextureDepth(texture);
-                    NativeArray<byte> imageBytes = new NativeArray<byte>(colors.Length * textureDepth * 4, Allocator.Persistent);
+                    byte[] imageBytes = new byte[colors.Length * textureDepth * 4];
                     for (int i = 0; i < colors.Length * textureDepth; i++)
                     {
                         imageBytes[i * 4 + 0] = colors[i].r;
@@ -159,11 +159,10 @@ namespace FrozenAPE
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"failed to access texture data using Texture.GetPixels32(): {ex}");
+                Debug.LogError($"failed to access texture data using Texture.GetPixels32(): {ex}");
             }
 
-            NativeArray<byte> empty = default;
-            return empty;
+            return Array.Empty<byte>();
         }
     }
 }
