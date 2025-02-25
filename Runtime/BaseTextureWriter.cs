@@ -116,5 +116,22 @@ namespace FrozenAPE
             uint, //< rowBytes
             NativeArray<byte> //< return
         > EncodingFunc { get; }
+
+        /// <summary>
+        /// retrieves the texture's depth (3D: depth, 2DArray: #slices)
+        /// defaults to 1 for 1D/2D textures
+        /// </summary>
+        /// <param name="texture">texture to get data from</param>
+        /// <returns>texture depth/#slices if applicable, else 1</returns>
+        protected virtual int GetTextureDepth(Texture texture)
+        {
+            if (texture is Texture3D)
+                return (texture as Texture3D).depth;
+
+            if (texture is Texture2DArray)
+                return (texture as Texture2DArray).depth;
+
+            return 1;
+        }
     }
 }
