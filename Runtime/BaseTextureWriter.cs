@@ -90,7 +90,7 @@ namespace FrozenAPE
         /// </summary>
         /// <param name="texture">texture to read (must be set to readable)</param>
         /// <returns>native array containing the data</returns>
-        protected virtual NativeArray<byte> FetchPixelsFast(Texture texture)
+        protected virtual byte[] FetchPixelsFast(Texture texture)
         {
             Debug.Log("fetching data through Texture.GetPixelData()");
 
@@ -98,24 +98,23 @@ namespace FrozenAPE
             {
                 if (texture is Texture2D)
                 {
-                    return (texture as Texture2D).GetPixelData<byte>(mipLevel: 0);
+                    return (texture as Texture2D).GetPixelData<byte>(mipLevel: 0).ToArray();
                 }
                 else if (texture is Texture3D)
                 {
-                    return (texture as Texture3D).GetPixelData<byte>(mipLevel: 0);
+                    return (texture as Texture3D).GetPixelData<byte>(mipLevel: 0).ToArray();
                 }
                 else if (texture is Texture2DArray)
                 {
-                    return (texture as Texture2DArray).GetPixelData<byte>(mipLevel: 0, element: 0);
+                    return (texture as Texture2DArray).GetPixelData<byte>(mipLevel: 0, element: 0).ToArray();
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"failed to access texture data using Texture.GetPixelData<byte>(): {ex}");
+                Debug.LogError($"failed to access texture data using Texture.GetPixelData<byte>(): {ex}");
             }
 
-            NativeArray<byte> empty = default;
-            return empty;
+            return Array.Empty<byte>();
         }
 
         /// <summary>
