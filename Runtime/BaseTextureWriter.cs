@@ -56,15 +56,15 @@ namespace FrozenAPE
 
         /// <summary>
         /// the encoding function
-        /// signature matches ImageConversion.EncodeNativeArrayTo[PNG|TGA|JPG|EXR]
+        /// signature matches ImageConversion.EncodeArrayTo[PNG|TGA|JPG|EXR]
         /// </summary>
         protected abstract Func<
-            NativeArray<byte>, //< raw image bytes
+            byte[], //< raw image bytes
             Rendering.GraphicsFormat,
             uint, //< width
             uint, //< height
             uint, //< rowBytes
-            NativeArray<byte> //< return
+            byte[] //< return
         > EncodingFunc { get; }
 
         /// <summary>
