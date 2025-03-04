@@ -16,7 +16,7 @@ namespace FrozenAPE
         /// </summary>
         // required
         [Required(AllowEmptyStrings = false)]
-        public string targetBone;
+        public string name;
 
         /// <summary>
         /// local bone position, i.e. relative to parent bone

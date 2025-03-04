@@ -13,14 +13,14 @@ namespace FrozenAPE
         {
             foreach (var posedBone in posedBones)
             {
-                int idx = Array.FindIndex(transforms, t => t.name == posedBone.targetBone);
+                int idx = Array.FindIndex(transforms, t => t.name == posedBone.name);
                 if (idx < 0)
                 {
-                    Debug.LogWarning($"could not find bone `{posedBone.targetBone}`. skipping.");
+                    Debug.LogWarning($"could not find bone `{posedBone.name}`. skipping.");
                     continue;
                 }
 
-                Debug.Log($"applying pose for bone `{posedBone.targetBone}` [{transforms[idx].name}]");
+                Debug.Log($"applying pose for bone `{posedBone.name}` [{transforms[idx].name}]");
                 if (posedBone.rotation is not null)
                 {
                     Debug.Log($"\tposing `{transforms[idx].name}` rotation {transforms[idx].localEulerAngles} to {posedBone.rotation}");
@@ -48,17 +48,20 @@ namespace FrozenAPE
         {
             foreach (var posedBone in posedBones)
             {
-                int idx = Array.FindIndex(transforms, t => t.name == posedBone.targetBone);
+                Debug.Log($"applying: {posedBone}");
+                int idx = Array.FindIndex(transforms, t => t.name == posedBone.name);
                 if (idx < 0)
                 {
-                    Debug.LogWarning($"could not find bone `{posedBone.targetBone}`. skipping.");
+                    Debug.LogWarning($"could not find bone `{posedBone.name}`. skipping.");
                     continue;
                 }
 
-                Debug.Log($"applying pose for bone `{posedBone.targetBone}` [{transforms[idx].name}]");
+                Debug.Log($"applying pose for bone `{posedBone.name}` [{transforms[idx].name}]");
                 if (posedBone.rotation is not null)
                 {
-                    Debug.Log($"\tposing `{transforms[idx].name}` WORLD SPACE rotation {transforms[idx].eulerAngles} to {posedBone.rotation}");
+                    Debug.Log(
+                        $"\tposing `{transforms[idx].name}` WORLD SPACE rotation {transforms[idx].eulerAngles} to {posedBone.rotation}"
+                    );
                     Debug.Log($"\tnote `{transforms[idx].name}` local rotation is {transforms[idx].localEulerAngles}");
                     transforms[idx].eulerAngles = (Vector3)math.float3((double3)posedBone.rotation!);
                     Debug.Log($"\t`{transforms[idx].name}` WORLD SPACE rotation is now {transforms[idx].eulerAngles}");
@@ -95,7 +98,7 @@ namespace FrozenAPE
             foreach (var transform in transforms)
             {
                 PosedBone posedBone = new();
-                posedBone.targetBone = transform.name;
+                posedBone.name = transform.name;
                 posedBone.rotation = (float3)transform.localEulerAngles;
                 posedBone.position = (float3)transform.localPosition;
                 posedBone.scaling = (float3)transform.localScale;
