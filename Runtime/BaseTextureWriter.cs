@@ -149,10 +149,10 @@ namespace FrozenAPE
                     byte[] imageBytes = new byte[colors.Length * textureDepth * 4];
                     for (int i = 0; i < colors.Length * textureDepth; i++)
                     {
-                        imageBytes[i * 4 + 0] = colors[i].b;
-                        imageBytes[i * 4 + 1] = colors[i].g;
-                        imageBytes[i * 4 + 2] = colors[i].r;
-                        imageBytes[i * 4 + 3] = colors[i].a;
+                        imageBytes[i * 4 + 0] = colors[i].a;
+                        imageBytes[i * 4 + 1] = colors[i].r;
+                        imageBytes[i * 4 + 2] = colors[i].g;
+                        imageBytes[i * 4 + 3] = colors[i].b;
                     }
                     return imageBytes;
                 }
