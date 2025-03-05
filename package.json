@@ -1,6 +1,6 @@
 {
   "name": "com.kagekirin.frozenape",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "displayName": "Frozen A-Pose Exporter 🧊🦍",
   "description": "Editor and Runtime exporter for skinned meshes frozen in a specific pose as static mesh",
   "unity": "6000.0",
