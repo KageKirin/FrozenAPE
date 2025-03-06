@@ -53,13 +53,6 @@ namespace FrozenAPE
                 return;
             }
 
-            var path = EditorUtility.SaveFilePanel("Save Pose Δ to JSON", null, "pose.json", "json");
-            if (string.IsNullOrEmpty(path))
-            {
-                Debug.LogError("Nothing selected! Please select a file to write to.");
-                return;
-            }
-
             IRigPuppeteer rigPuppeteer = new RigPuppeteer();
             rigPuppeteer.SavePose(go.GetComponentsInChildren<Transform>(true), out var posedBones);
 
@@ -116,6 +109,19 @@ namespace FrozenAPE
                     deltaBoneContainer.bones.Add(deltaBone);
                 else
                     Debug.LogWarning($"Skipping delta for {key}: no values to be exported. {JsonSerialization.ToJson(deltaBone)}");
+            }
+
+            if (deltaBoneContainer.bones.Count == 0)
+            {
+                Debug.LogError("Could not create any delta transform because the transforms are too similar.");
+                return;
+            }
+
+            var path = EditorUtility.SaveFilePanel("Save Pose Δ to JSON", null, "pose.json", "json");
+            if (string.IsNullOrEmpty(path))
+            {
+                Debug.LogError("Nothing selected! Please select a file to write to.");
+                return;
             }
 
             var json = JsonSerialization.ToJson(deltaBoneContainer);
