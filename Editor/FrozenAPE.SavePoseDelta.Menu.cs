@@ -65,43 +65,50 @@ namespace FrozenAPE
 
             Dictionary<string, PosedBone> refDictPosedBones = refPosedBones.bones.ToDictionary(x => x.name, x => x);
             Dictionary<string, PosedBone> dictPosedBones = posedBones.ToDictionary(x => x.name, x => x);
-            foreach (var kvp in refDictPosedBones)
+            PosedBoneContainer deltaBoneContainer = new() { bones = new() };
+
+            foreach (var key in refDictPosedBones.Keys.Intersect(dictPosedBones.Keys))
             {
-                if (dictPosedBones.ContainsKey(kvp.Key))
+                PosedBone deltaBone =
+                    new()
+                    {
+                        name = key,
+                        position = default,
+                        rotation = default,
+                        scaling = default
+                    };
+
+                if (refDictPosedBones[key].position is not null && refDictPosedBones[key].position is not null)
                 {
-                    PosedBone PoseFromDeltadBone = dictPosedBones[kvp.Key];
-                    if (PoseFromDeltadBone.position is not null && kvp.Value.position is not null)
-                    {
-                        PoseFromDeltadBone.position -= kvp.Value.position;
-                    }
-                    else
-                    {
-                        PoseFromDeltadBone.position = null;
-                    }
+                    double3 delta = (double3)(dictPosedBones[key].position) - (double3)(refDictPosedBones[key].position);
+                    delta = math.double3(Math.Round(delta.x, 3), Math.Round(delta.y, 3), Math.Round(delta.z, 3));
 
-                    if (PoseFromDeltadBone.rotation is not null && kvp.Value.rotation is not null)
-                    {
-                        PoseFromDeltadBone.rotation -= kvp.Value.rotation;
-                    }
-                    else
-                    {
-                        PoseFromDeltadBone.rotation = null;
-                    }
-
-                    if (PoseFromDeltadBone.scaling is not null && kvp.Value.scaling is not null)
-                    {
-                        PoseFromDeltadBone.scaling -= kvp.Value.scaling;
-                    }
-                    else
-                    {
-                        PoseFromDeltadBone.scaling = null;
-                    }
-
-                    dictPosedBones[kvp.Key] = PoseFromDeltadBone;
+                    if (math.all(delta != double3.zero))
+                        deltaBone.position = delta;
                 }
+
+                if (refDictPosedBones[key].rotation is not null && refDictPosedBones[key].rotation is not null)
+                {
+                    double3 delta = (double3)(dictPosedBones[key].rotation) - (double3)(refDictPosedBones[key].rotation);
+                    delta = math.double3(Math.Round(delta.x, 3), Math.Round(delta.y, 3), Math.Round(delta.z, 3));
+
+                    if (math.all(delta != double3.zero))
+                        deltaBone.rotation = delta;
+                }
+
+                if (refDictPosedBones[key].scaling is not null && refDictPosedBones[key].scaling is not null)
+                {
+                    double3 delta = (double3)(dictPosedBones[key].scaling) - (double3)(refDictPosedBones[key].scaling);
+                    delta = math.double3(Math.Round(delta.x, 3), Math.Round(delta.y, 3), Math.Round(delta.z, 3));
+
+                    if (math.all(delta != double3.zero))
+                        deltaBone.scaling = delta;
+                }
+
+                if (deltaBone.position is not null || deltaBone.rotation is not null || deltaBone.scaling is not null)
+                    deltaBoneContainer.bones.Add(deltaBone);
             }
 
-            PosedBoneContainer deltaBoneContainer = new() { bones = new(dictPosedBones.Values) };
             var json = JsonSerialization.ToJson(deltaBoneContainer);
             File.WriteAllText(path, json);
         }
