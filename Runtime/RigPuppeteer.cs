@@ -86,6 +86,83 @@ namespace FrozenAPE
             }
         }
 
+        public virtual void PoseFromDelta(Transform[] transforms, in IEnumerable<PosedBone> posedBones)
+        {
+            foreach (var posedBone in posedBones)
+            {
+                int idx = Array.FindIndex(transforms, t => t.name == posedBone.name);
+                if (idx < 0)
+                {
+                    Debug.LogWarning($"could not find bone `{posedBone.name}`. skipping.");
+                    continue;
+                }
+
+                Debug.Log($"applying pose for bone `{posedBone.name}` [{transforms[idx].name}]");
+                if (posedBone.rotation is not null)
+                {
+                    Debug.Log($"\tposing `{transforms[idx].name}` rotation {transforms[idx].localEulerAngles} to {posedBone.rotation}");
+                    transforms[idx].localEulerAngles += (Vector3)math.float3((double3)posedBone.rotation!);
+                    Debug.Log($"\t`{transforms[idx].name}` rotation is now {transforms[idx].localEulerAngles}");
+                }
+
+                if (posedBone.position is not null)
+                {
+                    Debug.Log($"\tposing `{transforms[idx].name}` position {transforms[idx].localPosition} to {posedBone.position}");
+                    transforms[idx].localPosition += (Vector3)math.float3((double3)posedBone.position!);
+                    Debug.Log($"\t`{transforms[idx].name}` position is now {transforms[idx].localPosition}");
+                }
+
+                if (posedBone.scaling is not null)
+                {
+                    Debug.Log($"\tposing `{transforms[idx].name}` scale {transforms[idx].localScale} to {posedBone.scaling}");
+                    transforms[idx].localScale += (Vector3)math.float3((double3)posedBone.scaling!);
+                    Debug.Log($"\t`{transforms[idx].name}` scale is now {transforms[idx].localScale}");
+                }
+            }
+        }
+
+        public virtual void PoseFromDeltaInWorldSpace(Transform[] transforms, in IEnumerable<PosedBone> posedBones)
+        {
+            foreach (var posedBone in posedBones)
+            {
+                Debug.Log($"applying: {posedBone}");
+                int idx = Array.FindIndex(transforms, t => t.name == posedBone.name);
+                if (idx < 0)
+                {
+                    Debug.LogWarning($"could not find bone `{posedBone.name}`. skipping.");
+                    continue;
+                }
+
+                Debug.Log($"applying pose for bone `{posedBone.name}` [{transforms[idx].name}]");
+                if (posedBone.rotation is not null)
+                {
+                    Debug.Log(
+                        $"\tposing `{transforms[idx].name}` WORLD SPACE rotation {transforms[idx].eulerAngles} to {posedBone.rotation}"
+                    );
+                    Debug.Log($"\tnote `{transforms[idx].name}` local rotation is {transforms[idx].localEulerAngles}");
+                    transforms[idx].eulerAngles += (Vector3)math.float3((double3)posedBone.rotation!);
+                    Debug.Log($"\t`{transforms[idx].name}` WORLD SPACE rotation is now {transforms[idx].eulerAngles}");
+                    Debug.Log($"\tnote `{transforms[idx].name}` local rotation is now {transforms[idx].localEulerAngles}");
+                }
+
+                if (posedBone.position is not null)
+                {
+                    Debug.Log($"\tposing `{transforms[idx].name}` WORLD SPACE position {transforms[idx].position} to {posedBone.position}");
+                    Debug.Log($"\tnote `{transforms[idx].name}` local position is {transforms[idx].localPosition}");
+                    transforms[idx].position += (Vector3)math.float3((double3)posedBone.position!);
+                    Debug.Log($"\t`{transforms[idx].name}` WORLD SPACE position is now {transforms[idx].position}");
+                    Debug.Log($"\tnote `{transforms[idx].name}` local position is now {transforms[idx].localPosition}");
+                }
+
+                if (posedBone.scaling is not null)
+                {
+                    Debug.Log($"\tposing `{transforms[idx].name}` scale {transforms[idx].localScale} to {posedBone.scaling}");
+                    transforms[idx].localScale += (Vector3)math.float3((double3)posedBone.scaling!);
+                    Debug.Log($"\t`{transforms[idx].name}` scale is now {transforms[idx].localScale}");
+                }
+            }
+        }
+
         /// <summary>
         /// saves the provided transforms into posed bones
         /// </summary>
