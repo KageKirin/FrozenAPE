@@ -67,7 +67,14 @@ namespace FrozenAPE
             Dictionary<string, PosedBone> dictPosedBones = posedBones.ToDictionary(x => x.name, x => x);
             PosedBoneContainer deltaBoneContainer = new() { bones = new() };
 
-            foreach (var key in refDictPosedBones.Keys.Intersect(dictPosedBones.Keys))
+            var keys = refDictPosedBones.Keys.Intersect(dictPosedBones.Keys);
+            if (keys.Count() == 0)
+            {
+                Debug.LogError("Reference bones and model bones don't match! Please select a matching reference.");
+                return;
+            }
+
+            foreach (var key in keys)
             {
                 PosedBone deltaBone =
                     new()
