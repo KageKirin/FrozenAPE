@@ -114,6 +114,8 @@ namespace FrozenAPE
 
                 if (deltaBone.position is not null || deltaBone.rotation is not null || deltaBone.scaling is not null)
                     deltaBoneContainer.bones.Add(deltaBone);
+                else
+                    Debug.LogWarning($"Skipping delta for {key}: no values to be exported. {JsonSerialization.ToJson(deltaBone)}");
             }
 
             var json = JsonSerialization.ToJson(deltaBoneContainer);
