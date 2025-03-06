@@ -90,7 +90,7 @@ namespace FrozenAPE
                     double3 delta = (double3)(dictPosedBones[key].position) - (double3)(refDictPosedBones[key].position);
                     delta = math.double3(Math.Round(delta.x, 7), Math.Round(delta.y, 7), Math.Round(delta.z, 7));
 
-                    if (math.all(delta != double3.zero))
+                    if (math.any(delta != double3.zero))
                         deltaBone.position = delta;
                 }
 
