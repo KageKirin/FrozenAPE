@@ -81,7 +81,7 @@ namespace FrozenAPE
                 if (refDictPosedBones[key].position is not null && refDictPosedBones[key].position is not null)
                 {
                     double3 delta = (double3)(dictPosedBones[key].position) - (double3)(refDictPosedBones[key].position);
-                    delta = math.double3(Math.Round(delta.x, 3), Math.Round(delta.y, 3), Math.Round(delta.z, 3));
+                    delta = math.double3(Math.Round(delta.x, 7), Math.Round(delta.y, 7), Math.Round(delta.z, 7));
 
                     if (math.all(delta != double3.zero))
                         deltaBone.position = delta;
@@ -90,7 +90,7 @@ namespace FrozenAPE
                 if (refDictPosedBones[key].rotation is not null && refDictPosedBones[key].rotation is not null)
                 {
                     double3 delta = (double3)(dictPosedBones[key].rotation) - (double3)(refDictPosedBones[key].rotation);
-                    delta = math.double3(Math.Round(delta.x, 3), Math.Round(delta.y, 3), Math.Round(delta.z, 3));
+                    delta = math.double3(Math.Round(delta.x, 7), Math.Round(delta.y, 7), Math.Round(delta.z, 7));
 
                     if (math.all(delta != double3.zero))
                         deltaBone.rotation = delta;
@@ -99,7 +99,7 @@ namespace FrozenAPE
                 if (refDictPosedBones[key].scaling is not null && refDictPosedBones[key].scaling is not null)
                 {
                     double3 delta = (double3)(dictPosedBones[key].scaling) - (double3)(refDictPosedBones[key].scaling);
-                    delta = math.double3(Math.Round(delta.x, 3), Math.Round(delta.y, 3), Math.Round(delta.z, 3));
+                    delta = math.double3(Math.Round(delta.x, 7), Math.Round(delta.y, 7), Math.Round(delta.z, 7));
 
                     if (math.all(delta != double3.zero))
                         deltaBone.scaling = delta;
