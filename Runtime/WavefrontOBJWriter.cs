@@ -48,6 +48,7 @@ namespace FrozenAPE
                 }
             }
 
+            int indexOffset = 1; //< indices are 1 based
             foreach (var mesh in meshes)
             {
                 for (int submeshIndex = 0; submeshIndex < mesh.subMeshCount; submeshIndex++)
@@ -83,12 +84,13 @@ namespace FrozenAPE
                         sb.Append($"{faceTag}");
                         for (int x = elementsPerLine - 1; x >= 0; x--)
                         {
-                            int faceIndex = 1 + mesh.triangles[desc.indexStart + i + x]; // indices are 1 based
+                            int faceIndex = indexOffset + mesh.triangles[desc.indexStart + i + x];
                             sb.Append($" {faceIndex}/{faceIndex}/{faceIndex}"); //< indices in order `v/vt/vn`
                         }
                         sb.AppendLine("");
                     }
                 }
+                indexOffset += mesh.vertexCount;
             }
 
             return sb.ToString();
